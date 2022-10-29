@@ -5,6 +5,7 @@ import './object';
 import './deconstruct';
 import './symbol';
 import './setMap';
+import './iteratorGenerator';
 import './test';
 
 
