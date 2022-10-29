@@ -1,4 +1,4 @@
-const fs = require('fs');
+// const fs = require('fs');
 // 模拟迭代器
 // function createIterator(arr) {
 //     const length = arr.length;
