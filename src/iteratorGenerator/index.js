@@ -206,6 +206,7 @@
 // console.log(iterator.next());
 // console.log(iterator.next());
 // 异步任务执行器
+// const fs = require('fs');
 // function run(generator) {
 //     const task = generator();
 //     let result = task.next();
@@ -236,7 +237,7 @@
 // });
 // function readFile(name) {
 //     return function (callback) {
-//         fs.readFile(name, callback);
+//         fs.readFile(name, 'utf-8', callback);
 //     };
 // }
 

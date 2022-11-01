@@ -8,6 +8,7 @@ import './setMap';
 import './iteratorGenerator';
 import './class';
 import './arrayMorePower';
+import './promise';
 import './test';
 
 
