@@ -9,6 +9,7 @@ import './iteratorGenerator';
 import './class';
 import './arrayMorePower';
 import './promise';
+import './proxy';
 import './test';
 
 
