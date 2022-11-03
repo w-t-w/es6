@@ -10,6 +10,7 @@ import './class';
 import './arrayMorePower';
 import './promise';
 import './proxy';
+import './jsModule';
 import './test';
 
 
