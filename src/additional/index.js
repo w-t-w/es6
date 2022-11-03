@@ -1,0 +1,13 @@
+const number = 200;
+const noSafeNumber = Number.MAX_SAFE_INTEGER + 1;
+console.log(Number.isInteger(number));
+console.log(Number.isSafeInteger(number));
+console.log(Number.isInteger(noSafeNumber));
+console.log(Number.isSafeInteger(noSafeNumber));
+const arr = ['red', 'blue', 'yellow'];
+console.log(arr.includes('blue'));
+console.log(arr.includes('purple'));
+console.log(Math.pow(2, 32));
+console.log(2 ** 32);
+console.log((-5) ** 2);
+console.log(-(5 ** 2));

@@ -11,6 +11,7 @@ import './arrayMorePower';
 import './promise';
 import './proxy';
 import './jsModule';
+import './additional';
 import './test';
 
 
