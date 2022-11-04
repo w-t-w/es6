@@ -139,3 +139,6 @@
 // }
 // const personWtw = raw`I'm ${wtw.name},\n${wtw.age} year's old,\nI love ${wtw.hobby}~`;
 // console.log(personWtw);
+// const str = 'sos';
+// console.log(str.padStart(1));
+// console.log(str.padStart(5, '*'));

@@ -13,9 +13,13 @@
 // export {sum as default};
 // import sum from './module';
 // export {number, name, drink, count} from './module';
-Array.prototype.pushAll = function (args) {
-    if (!Array.isArray(args)) {
-        throw new TypeError('参数必须为数组!!');
-    }
-    return this.push(...args);
-};
+// Array.prototype.pushAll = function (args) {
+//     if (!Array.isArray(args)) {
+//         throw new TypeError('参数必须为数组!!');
+//     }
+//     return this.push(...args);
+// };
+export let number = 100;
+export default function sum() {
+    number += 100;
+}

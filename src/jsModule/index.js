@@ -61,3 +61,7 @@
 // 递归下载并解析
 // 递归执行
 // 执行
+// import * as modules from './export';
+// console.log(modules.number);
+// modules.default();
+// console.log(modules.number);
