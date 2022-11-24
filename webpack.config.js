@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
 
 const OUTPUT_DIR = path.resolve(__dirname, './build');
+const STATIC_DIR = path.resolve(__dirname, './build');
 const TEMPLATE_DIR = path.resolve(__dirname, './src/index.ejs');
 
 const PORT = 7777;
@@ -43,6 +44,7 @@ const config = {
                 name: open.apps.chrome
             }
         },
+        static: STATIC_DIR,
         historyApiFallback: true,
         proxy: {}
     },

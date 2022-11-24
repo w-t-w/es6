@@ -1,0 +1,9 @@
+{
+  "status": "ok",
+  "statusCode": 200,
+  "data": {
+    "id": 200,
+    "score": 75,
+    "totalScore": 100
+  }
+}

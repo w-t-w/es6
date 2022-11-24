@@ -1,0 +1,18 @@
+{
+  "status": "ok",
+  "statusCode": 200,
+  "data": [
+    {
+      "id": "history",
+      "studentId": 1
+    },
+    {
+      "id": "algebra",
+      "studentId": 1
+    },
+    {
+      "id": "math",
+      "studentId": 1
+    }
+  ]
+}
