@@ -409,183 +409,182 @@
 // 23. D
 
 // 24. Promise
-// const MyPromise = (() => {
-//     const PENDING = 'PENDING',
+// var MyPromise = (function () {
+//     var PENDING = 'PENDING',
 //         FULFILLED = 'FULFILLED',
 //         REJECTED = 'REJECTED';
 //
-//     class MyPromise {
-//         constructor(fn) {
-//             this.status = PENDING;
-//             this.value = null;
-//             this.reason = null;
-//             this.onFulfilledCallbacks = [];
-//             this.onRejectedCallbacks = [];
-//             const resolve = (value) => {
-//                 if (this.status === PENDING) {
-//                     this.status = FULFILLED;
-//                     this.value = value;
-//                     this.onFulfilledCallbacks.forEach(callback => {
-//                         callback(value);
-//                     });
-//                 }
-//             };
-//             const reject = (reason) => {
-//                 if (this.status === PENDING) {
-//                     this.status = REJECTED;
-//                     this.reason = reason;
-//                     this.onRejectedCallbacks.forEach(callback => {
-//                         callback(reason);
-//                     });
-//                 }
-//             };
-//             try {
-//                 fn(resolve, reject);
-//             } catch (err) {
-//                 reject();
+//     function Promise(fn) {
+//         this.status = PENDING;
+//         this.value = null;
+//         this.reason = null;
+//         this.onFulfilledCallbacks = [];
+//         this.onRejectedCallbacks = [];
+//
+//         var that = this;
+//
+//         function resolve(value) {
+//             if (that.status === PENDING) {
+//                 that.status = FULFILLED;
+//                 that.value = value;
+//                 that.onFulfilledCallbacks.forEach(function (callback) {
+//                     callback(that.value);
+//                 });
 //             }
 //         }
 //
-//         then(onFulfilled, onRejected) {
-//             if (typeof onFulfilled !== 'function') {
-//                 onFulfilled = value => value;
+//         function reject(reason) {
+//             if (that.status === PENDING) {
+//                 that.status = REJECTED;
+//                 that.reason = reason;
+//                 that.onRejectedCallbacks.forEach(function (callback) {
+//                     callback(that.reason);
+//                 });
 //             }
-//             if (typeof onRejected !== 'function') {
-//                 onRejected = reason => {
-//                     if (reason instanceof Error) {
-//                         throw reason;
-//                     } else {
-//                         throw new Error(reason);
-//                     }
+//         }
+//
+//         try {
+//             fn(resolve, reject);
+//         } catch (err) {
+//             reject(err);
+//         }
+//     }
+//
+//     Promise.prototype.then = function (onFulfilled, onRejected) {
+//         if (typeof onFulfilled !== 'function') {
+//             onFulfilled = function (value) {
+//                 return value;
+//             };
+//         }
+//         if (typeof onRejected !== 'function') {
+//             onRejected = function (reason) {
+//                 if (reason instanceof Error) {
+//                     throw reason;
+//                 } else {
+//                     throw new Error(reason);
 //                 }
-//             }
-//             let promise,
-//                 then;
-//             if (this.status === FULFILLED) {
-//                 promise = new MyPromise((resolve, reject) => {
-//                     setTimeout(() => {
+//             };
+//         }
+//         let promise,
+//             then,
+//             that = this;
+//         if (this.status === FULFILLED) {
+//             promise = new Promise(function (resolve, reject) {
+//                 setTimeout(function () {
+//                     if (typeof onFulfilled !== 'function') {
+//                         resolve(that.value);
+//                     } else {
+//                         (function thenable(value) {
+//                             then = value.then;
+//                             if (typeof then === 'function') {
+//                                 then.call(that, function (y) {
+//                                     thenable(y);
+//                                 }, function (r) {
+//                                     reject(r);
+//                                 });
+//                             } else {
+//                                 const x = onFulfilled(value);
+//                                 resolvePromise(promise, x, resolve, reject);
+//                             }
+//                         })(that.value);
+//                     }
+//                 }, 0);
+//             });
+//         }
+//         if (this.status === REJECTED) {
+//             promise = new Promise(function (resolve, reject) {
+//                 setTimeout(function () {
+//                     try {
+//                         if (typeof onRejected !== 'function') {
+//                             reject(that.reason);
+//                         } else {
+//                             const x = onRejected(that.reason);
+//                             resolvePromise(promise, x, resolve, reject);
+//                         }
+//                     } catch (error) {
+//                         reject(error);
+//                     }
+//                 }, 0);
+//             });
+//         }
+//         if (this.status === PENDING) {
+//             promise = new Promise(function (resolve, reject) {
+//                 that.onFulfilledCallbacks.push(function () {
+//                     setTimeout(function () {
 //                         try {
 //                             if (typeof onFulfilled !== 'function') {
-//                                 resolve(this.value);
+//                                 resolve(that.value);
 //                             } else {
 //                                 (function thenable(value) {
 //                                     then = value.then;
 //                                     if (typeof then === 'function') {
-//                                         then.call(this, y => {
+//                                         then.call(that, function (y) {
 //                                             thenable(y);
-//                                         }, r => {
+//                                         }, function (r) {
 //                                             reject(r);
 //                                         });
 //                                     } else {
 //                                         const x = onFulfilled(value);
 //                                         resolvePromise(promise, x, resolve, reject);
 //                                     }
-//                                 }.bind(this))(this.value);
+//                                 })(that.value);
 //                             }
-//                         } catch (err) {
-//                             reject(err);
+//                         } catch (error) {
+//                             reject(error);
 //                         }
 //                     }, 0);
 //                 });
-//             }
-//             if (this.status === REJECTED) {
-//                 promise = new MyPromise((resolve, reject) => {
-//                     setTimeout(() => {
+//                 that.onRejectedCallbacks.push(function () {
+//                     setTimeout(function () {
 //                         try {
 //                             if (typeof onRejected !== 'function') {
-//                                 reject(this.reason);
+//                                 reject(that.reason);
 //                             } else {
-//                                 const x = onRejected(this.reason);
+//                                 const x = onRejected(that.reason);
 //                                 resolvePromise(promise, x, resolve, reject);
 //                             }
-//                         } catch (err) {
-//                             reject(err);
+//                         } catch (error) {
+//                             reject(error);
 //                         }
 //                     }, 0);
 //                 });
-//             }
-//             if (this.status === PENDING) {
-//                 promise = new MyPromise((resolve, reject) => {
-//                     this.onFulfilledCallbacks.push(() => {
-//                         setTimeout(() => {
-//                             try {
-//                                 let then;
-//                                 if (typeof onFulfilled !== 'function') {
-//                                     resolve(this.value);
-//                                 } else {
-//                                     (function thenable(value) {
-//                                         then = value.then;
-//                                         if (typeof then === 'function') {
-//                                             then.call(this, y => {
-//                                                 thenable(y);
-//                                             }, r => {
-//                                                 reject(r);
-//                                             });
-//                                         } else {
-//                                             const x = onFulfilled(value);
-//                                             resolvePromise(promise, x, resolve, reject);
-//                                         }
-//                                     }.bind(this))(this.value);
-//                                 }
-//                             } catch (err) {
-//                                 reject(err);
-//                             }
-//                         }, 0);
-//                     });
-//                     this.onRejectedCallbacks.push(() => {
-//                         setTimeout(() => {
-//                             try {
-//                                 if (typeof onRejected !== 'function') {
-//                                     reject(this.reason);
-//                                 } else {
-//                                     const x = onRejected(this.reason);
-//                                     resolvePromise(promise, x, resolve, reject);
-//                                 }
-//                             } catch (err) {
-//                                 reject(err);
-//                             }
-//                         }, 0);
-//                     });
-//                 });
-//             }
-//             return promise;
+//             });
 //         }
-//     }
+//
+//         return promise
+//     };
 //
 //     function resolvePromise(promise, x, resolve, reject) {
 //         if (promise === x) {
 //             return reject(new TypeError('The promise and the return value are the same'));
 //         }
-//         if (x instanceof MyPromise) {
+//         if (x instanceof Promise) {
 //             x.then(y => {
 //                 resolvePromise(promise, y, resolve, reject);
-//             }, reject);
+//             });
 //         }
 //         if (typeof x === 'object' || typeof x === 'function') {
-//             if (x === null) {
-//                 return resolve(x);
-//             }
 //             let then,
 //                 call = false;
 //             try {
 //                 then = x.then;
-//             } catch (err) {
-//                 reject(err);
+//             } catch (error) {
+//                 reject(error);
 //             }
 //             if (typeof then === 'function') {
 //                 try {
-//                     then.call(x, y => {
+//                     then.call(x, function (y) {
 //                         if (call) return;
 //                         call = true;
 //                         resolvePromise(promise, y, resolve, reject);
-//                     }, r => {
+//                     }, function (r) {
 //                         if (call) return;
 //                         call = true;
 //                         reject(r);
 //                     });
-//                 } catch (err) {
+//                 } catch (error) {
 //                     if (call) return;
-//                     reject(err);
+//                     reject(error);
 //                 }
 //             } else {
 //                 resolve(x);
@@ -595,7 +594,7 @@
 //         }
 //     }
 //
-//     return MyPromise;
+//     return Promise;
 // })();
 // const promise = new MyPromise((resolve, reject) => {
 //     resolve({
