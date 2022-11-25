@@ -441,7 +441,7 @@
 //             try {
 //                 fn(resolve, reject);
 //             } catch (err) {
-//                 reject(err);
+//                 reject();
 //             }
 //         }
 //
@@ -456,9 +456,8 @@
 //                     } else {
 //                         throw new Error(reason);
 //                     }
-//                 };
+//                 }
 //             }
-//
 //             let promise,
 //                 then;
 //             if (this.status === FULFILLED) {
@@ -471,9 +470,9 @@
 //                                 (function thenable(value) {
 //                                     then = value.then;
 //                                     if (typeof then === 'function') {
-//                                         then.call(this, (y) => {
+//                                         then.call(this, y => {
 //                                             thenable(y);
-//                                         }, (r) => {
+//                                         }, r => {
 //                                             reject(r);
 //                                         });
 //                                     } else {
@@ -509,15 +508,16 @@
 //                     this.onFulfilledCallbacks.push(() => {
 //                         setTimeout(() => {
 //                             try {
+//                                 let then;
 //                                 if (typeof onFulfilled !== 'function') {
 //                                     resolve(this.value);
 //                                 } else {
 //                                     (function thenable(value) {
 //                                         then = value.then;
 //                                         if (typeof then === 'function') {
-//                                             then.call(this, (y) => {
+//                                             then.call(this, y => {
 //                                                 thenable(y);
-//                                             }, (r) => {
+//                                             }, r => {
 //                                                 reject(r);
 //                                             });
 //                                         } else {
@@ -562,7 +562,7 @@
 //         }
 //         if (typeof x === 'object' || typeof x === 'function') {
 //             if (x === null) {
-//                 return reject(x);
+//                 return resolve(x);
 //             }
 //             let then,
 //                 call = false;
@@ -573,11 +573,11 @@
 //             }
 //             if (typeof then === 'function') {
 //                 try {
-//                     then.call(x, (y) => {
+//                     then.call(x, y => {
 //                         if (call) return;
 //                         call = true;
 //                         resolvePromise(promise, y, resolve, reject);
-//                     }, (r) => {
+//                     }, r => {
 //                         if (call) return;
 //                         call = true;
 //                         reject(r);
@@ -596,9 +596,6 @@
 //
 //     return MyPromise;
 // })();
-// setTimeout(() => {
-//     console.log('wtw');
-// }, 0);
 // const promise = new MyPromise((resolve, reject) => {
 //     resolve({
 //         then(resolve, reject) {
@@ -610,6 +607,9 @@
 //         }
 //     });
 // });
+// setTimeout(() => {
+//     console.log('pzy~~~');
+// }, 0);
 // promise.then(val => {
 //     console.log(val);
 //     return `ywk(${val})`;
