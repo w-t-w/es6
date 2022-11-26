@@ -413,6 +413,7 @@
 //     const PENDING = 'PENDING',
 //         FULFILLED = 'FULFILLED',
 //         REJECTED = 'REJECTED';
+//
 //     class Promise {
 //         constructor(fn) {
 //             this.status = PENDING;
@@ -420,6 +421,7 @@
 //             this.reason = null;
 //             this.onFulfilledCallbacks = [];
 //             this.onRejectedCallbacks = [];
+//
 //             const resolve = (value) => {
 //                 if (this.status === PENDING) {
 //                     this.status = FULFILLED;
@@ -429,6 +431,7 @@
 //                     });
 //                 }
 //             };
+//
 //             const reject = (reason) => {
 //                 if (this.status === PENDING) {
 //                     this.status = REJECTED;
@@ -445,6 +448,7 @@
 //                 reject(err);
 //             }
 //         }
+//
 //         then(onFulfilled, onRejected) {
 //             if (typeof onFulfilled !== 'function') {
 //                 onFulfilled = value => value;
@@ -452,11 +456,11 @@
 //             if (typeof onRejected !== 'function') {
 //                 onRejected = reason => {
 //                     if (reason instanceof Error) {
-//                         throw reason
+//                         throw reason;
 //                     } else {
 //                         throw new Error(reason);
 //                     }
-//                 }
+//                 };
 //             }
 //             let promise,
 //                 then;
@@ -548,23 +552,22 @@
 //             }
 //             return promise;
 //         }
+//
 //         catch(onRejected) {
 //             return this.then(null, onRejected);
 //         }
+//
 //         finally(fn) {
 //             return this.then(value => {
 //                 return Promise.resolve(fn()).then(() => value);
 //             }, reason => {
 //                 return Promise.resolve(fn()).then(() => {
-//                     if (reason instanceof Error) {
-//                         throw reason;
-//                     } else {
-//                         throw new Error(reason);
-//                     }
+//                     throw reason;
 //                 });
 //             });
 //         }
 //     }
+//
 //     function resolvePromise(promise, x, resolve, reject) {
 //         if (promise === x) {
 //             return reject(new TypeError('The promise and the return value are the same'));
@@ -580,13 +583,11 @@
 //             }
 //             let then,
 //                 call = false;
-//
 //             try {
 //                 then = x.then;
 //             } catch (err) {
 //                 reject(err);
 //             }
-//
 //             if (typeof then === 'function') {
 //                 try {
 //                     then.call(x, y => {
@@ -609,34 +610,34 @@
 //             resolve(x);
 //         }
 //     }
-//     Promise.resolve = promise => {
-//         if (promise instanceof Promise) {
-//             return promise;
+//
+//     Promise.resolve = params => {
+//         if (params instanceof Promise) {
+//             return params;
 //         }
 //         return new Promise(resolve => {
-//             resolve(promise);
+//             resolve(params);
 //         });
 //     };
-//     Promise.reject = promise => {
+//
+//     Promise.reject = reason => {
 //         return new Promise((resolve, reject) => {
-//             reject(promise);
+//             reject(reason);
 //         });
 //     };
+//
 //     Promise.all = promiseLists => {
 //         return new Promise((resolve, reject) => {
 //             if (!Array.isArray(promiseLists)) {
-//                 reject(new TypeError('parameter must be an array'));
+//                 reject(new TypeError('The promise and the return value are the same'));
 //             }
 //             let count = 0;
 //             const length = promiseLists.length,
 //                 result = [];
-//             if (length === 0) {
-//                 resolve(promiseLists);
-//             }
-//             promiseLists.forEach((promise, key) => {
+//             promiseLists.forEach((promise, index) => {
 //                 Promise.resolve(promise).then(value => {
 //                     count++;
-//                     result[key] = value;
+//                     result[index] = value;
 //                     if (count === length) {
 //                         resolve(result);
 //                     }
@@ -646,10 +647,11 @@
 //             });
 //         });
 //     };
+//
 //     Promise.race = promiseLists => {
 //         return new Promise((resolve, reject) => {
 //             if (!Array.isArray(promiseLists)) {
-//                 reject(new TypeError('parameter must be an array'));
+//                 reject(new TypeError('The promise and the return value are the same'));
 //             }
 //             promiseLists.forEach(promise => {
 //                 Promise.resolve(promise).then(value => {
@@ -660,17 +662,15 @@
 //             });
 //         });
 //     };
+//
 //     Promise.allSettled = promiseLists => {
 //         return new Promise((resolve, reject) => {
 //             if (!Array.isArray(promiseLists)) {
-//                 reject(new TypeError('parameter must be an array'));
+//                 reject(new TypeError('The promise and the return value are the same'));
 //             }
 //             let count = 0;
-//             const result = [],
-//                 length = promiseLists.length;
-//             if (length === 0) {
-//                 resolve(promiseLists);
-//             }
+//             const length = promiseLists.length,
+//                 result = [];
 //             promiseLists.forEach((promise, index) => {
 //                 Promise.resolve(promise).then(value => {
 //                     count++;
@@ -681,10 +681,11 @@
 //                     if (count === length) {
 //                         resolve(result);
 //                     }
+//                     resolve(result);
 //                 }, reason => {
 //                     count++;
 //                     result[index] = {
-//                         status: 'reject',
+//                         status: 'rejected',
 //                         reason
 //                     };
 //                     if (count === length) {
@@ -694,12 +695,13 @@
 //             });
 //         });
 //     };
+//
 //     return Promise;
 // })();
 // const promise = new MyPromise((resolve, reject) => {
 //     resolve({
 //         then(resolve, reject) {
-//             reject('hello!');
+//             resolve('hello!');
 //         }
 //     });
 // });
@@ -718,15 +720,14 @@
 //     };
 // }).then(val => {
 //     console.log(val);
-// }).catch(error => {
-//     console.log(error);
 // });
 // console.log('pzy!');
-// MyPromise.all([1, MyPromise.reject('error'), 3]).then(result => {
+// MyPromise.all([1, 3, 3]).then(result => {
 //     console.log(result);
 // }).catch(err => {
 //     console.log(err);
 // });
+// MyPromise.race([new MyPromise(resolve => setTimeout(() => {resolve('pzy')}, 200)), MyPromise.reject('error')]).then(value => console.log(value)).catch(err => console.log(err));
 
 // 25. 冒泡排序(从小到大)
 // const arr = [3, 5, 1, 6, 9, 7, 10, 8, 22, 15, 18];
