@@ -822,6 +822,46 @@
 //         right = arr.slice(middle);
 //     return merge(mergeSort(left), mergeSort(right));
 // }
+// function merge(a, b) {
+//     const a_length = a.length,
+//         b_length = b.length,
+//         arr = [];
+//     let i = 0,
+//         j = 0;
+//     while (i < a_length && j < b_length) {
+//         if (a[i] <= b[j]) {
+//             arr.push(a[i]);
+//             i++;
+//         } else {
+//             arr.push(b[j]);
+//             j++
+//         }
+//     }
+//     if (i === a_length && j < b_length) {
+//         while (j < b_length) {
+//             arr.push(b[j]);
+//             j++;
+//         }
+//     }
+//     if (j === b_length && i < a_length) {
+//         while (i < a_length) {
+//             arr.push(a[i]);
+//             i++
+//         }
+//     }
+//     return arr;
+// }
+//
+// function mergeSort(arr) {
+//     const length = arr.length;
+//     if (length <= 1) {
+//         return arr;
+//     }
+//     const middle = Math.floor(length / 2),
+//         left = arr.slice(0, middle),
+//         right = arr.slice(middle);
+//     return merge(mergeSort(left), mergeSort(right));
+// }
 // const array = [3, 5, 1, 6, 9, 7, 10, 8, 22, 15, 18];
 // const result = mergeSort(array);
 // console.log(result);
