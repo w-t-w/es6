@@ -746,17 +746,32 @@
 //     return result;
 // }
 // const result = bubble(arr);
+// function bubble(array) {
+//     const result = [...array],
+//         length = result.length;
+//     for (let i = 0; i < length; i++) {
+//         for (let j = 0; j < length - i; j++) {
+//             if (result[j] > result[j + 1]) {
+//                 const temp = result[j];
+//                 result[j] = result[j + 1];
+//                 result[j + 1] = temp;
+//             }
+//         }
+//     }
+//     return result;
+// }
+// const result = bubble(arr);
 // console.log(result);
 
 // 26. 插入排序(从小到大)
 // const array = [3, 5, 1, 6, 9, 7, 10, 8, 22, 15, 18];
-// function insert(arr) {
-//     const result = [...arr],
+// function insertSort(array) {
+//     const result = [...array],
 //         length = result.length;
 //     for (let i = 0; i < length; i++) {
 //         let j = i;
-//         while (result[j - 1] > result[j] && j > 0) {
-//             let temp = result[j];
+//         while ((result[j - 1] > result[j]) && j > 0) {
+//             const temp = result[j];
 //             result[j] = result[j - 1];
 //             result[j - 1] = temp;
 //             j--;
@@ -764,5 +779,5 @@
 //     }
 //     return result;
 // }
-// const result = insert(array);
+// const result = insertSort(array);
 // console.log(result);
