@@ -860,5 +860,6 @@
 // const result = quickSort(array);
 // console.log(result);
 
-// 28. Generator - thunk
+import './thinkjs';
+import './test.js';
 
