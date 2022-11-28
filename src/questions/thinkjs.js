@@ -378,6 +378,51 @@
 // Person.myApply(wtw, ['Gary', 35]);
 // console.log(wtw);
 
+// Generator thunk
+// const fs = require('fs');
+// const path = require('path');
+// function readFile(filename) {
+//     return function (callback) {
+//         fs.readFile(filename, 'utf-8', callback);
+//     };
+// }
+// function run(taskRun) {
+//     const task = taskRun();
+//     let result = task.next();
+//     (function step() {
+//         const {value, done} = result;
+//         if (!done) {
+//             if (typeof value === 'function') {
+//                 value((err, data) => {
+//                     if (err) task.throw(err);
+//                     result = task.next(data);
+//                     step();
+//                 });
+//             } else {
+//                 result = task.next(value);
+//                 step();
+//             }
+//         }
+//     })();
+// }
+// const Thunk = fn => (...args) => callback => fn.call(this, ...args, callback);
+// const fsThunk = Thunk(fs.readFile);
+// const run = taskRun => {
+//     const task = taskRun();
+//     const next = (err, data) => {
+//         const result = task.next(data);
+//         if (result.done) return;
+//         result.value(next);
+//     };
+//     next();
+// };
+// run(function* () {
+//     const content = yield fsThunk(path.resolve(process.cwd(), './src/questions/assets/1.txt'), 'utf-8');
+//     console.log(content);
+//     const content_ano = yield fsThunk(path.resolve(process.cwd(), './src/questions/assets/2.txt'), 'utf-8');
+//     console.log(content_ano);
+// });
+
 // bind
 // next 下一次
 
