@@ -862,4 +862,4 @@
 
 import './thinkjs';
 import './test.js';
-
+import './javascript.js';

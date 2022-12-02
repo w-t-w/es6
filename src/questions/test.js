@@ -23,3 +23,40 @@
 //         console.log('Hello ' + name);
 //     }
 // })();
+
+// 1.
+// var name = 'Rose';
+// function getName() {
+//     console.log(this);
+//     return this.name;
+// }
+// try {
+//     const result = getName.call(null);
+//     console.log(result);
+// } catch (e) {
+//     console.log('error', e);
+// }
+// try {
+//     const result = getName.apply(undefined);
+//     console.log(result);
+// } catch (e) {
+//     console.log('error', e);
+// }
+// const obj = {
+//     name: 'Jack',
+//     getName() {
+//         return this.name;
+//     }
+// };
+// const getMyName = obj.getName;
+// getMyName();
+
+// 2. 超时处理
+// const timeoutPromise = (promise, timeout) => Promise.race([promise, new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//         reject({
+//             status: 'rejected',
+//             reason: '请求超时'
+//         });
+//     }, timeout);
+// })]);
