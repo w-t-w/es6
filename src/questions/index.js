@@ -727,7 +727,7 @@
 // }).catch(err => {
 //     console.log(err);
 // });
-// MyPromise.race([new MyPromise(resolve => setTimeout(() => {resolve('pzy')}, 200)), MyPromise.reject('error')]).then(value => console.log(value)).catch(err => console.log(err));
+// MyPromise.race([new MyPromise(resolve => setTimeout(() => {resolve('pzy')}, 0)), MyPromise.reject('error'), 3]).then(value => console.log(value)).catch(err => console.log(err));
 
 // 25. 冒泡排序(从小到大)
 // const arr = [3, 5, 1, 6, 9, 7, 10, 8, 22, 15, 18];

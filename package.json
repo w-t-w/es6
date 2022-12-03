@@ -4,7 +4,7 @@
   "description": "es6",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "promises-aplus-tests src/questions/javascript.js",
     "start": "webpack-dev-server"
   },
   "repository": {
@@ -32,6 +32,7 @@
     "core-js": "^3.26.0",
     "html-webpack-plugin": "^5.5.0",
     "open": "^8.4.0",
+    "promises-aplus-tests": "^2.1.2",
     "tapable": "^2.2.1",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1"
