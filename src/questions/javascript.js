@@ -1309,3 +1309,664 @@
 // }).catch(reason => {
 //     console.log('race catch', reason);
 // });
+
+// 28. generator thunk
+// const path = require('path');
+// const fs = require('fs');
+// const Thunk = fn => (...args) => callback => fn(...args, callback);
+// function run(taskRun) {
+//     const task = taskRun();
+//     function next(err, data) {
+//         if (err) task.throw(err);
+//         const {done, value} = task.next(data);
+//         if (done) return;
+//         value(next);
+//     }
+//     next();
+// }
+// const readFile = Thunk(fs.readFile);
+// run(function* () {
+//     let content = yield readFile(path.resolve(process.cwd(), './src/questions/assets/1.txt'), 'utf-8');
+//     console.log(content);
+//     content = yield readFile(path.resolve(process.cwd(), './src/questions/assets/2.txt'), 'utf-8');
+//     console.log(content);
+// });
+// const fs = require('fs'),
+//     path = require('path');
+// function run(taskRun) {
+//     return new Promise((resolve, reject) => {
+//         const task = taskRun();
+//         let result = task.next();
+//         (function step() {
+//             const {value, done} = result;
+//             if (!done) {
+//                 if (typeof value === 'function') {
+//                     value((err, data) => {
+//                         if (err) result = task.throw(err);
+//                         result = task.next(data);
+//                         step();
+//                     });
+//                 } else {
+//                     result = task.next(value);
+//                     step();
+//                 }
+//             }
+//             if (done) {
+//                 resolve(value);
+//             }
+//         })();
+//     });
+// }
+// function readFile(...args) {
+//     return function (callback) {
+//         fs.readFile(...args, callback);
+//     };
+// }
+// run(function* () {
+//     let content = yield readFile(path.resolve(process.cwd(), './src/questions/assets/1.txt'), 'utf-8');
+//     console.log(content);
+//     content = yield readFile(path.resolve(process.cwd(), './src/questions/assets/2.txt'), 'utf-8');
+//     console.log(content);
+//     return content;
+// }).then(result => {
+//     console.log('end:', result);
+// });
+// const fs = require('fs'),
+//     path = require('path');
+// const Thunk = (fn) => (...args) => callback => fn(...args, callback);
+// const readFileThunk = Thunk(fs.readFile);
+// function run(taskRun) {
+//     return new Promise(resolve => {
+//         const task = taskRun();
+//         function next(err, data) {
+//             if (err) task.throw(err);
+//             const {done, value} = task.next(data);
+//             if (done) return resolve(value);
+//             value(next);
+//         }
+//         next();
+//     });
+// }
+// run(function* () {
+//     let content = yield readFileThunk(path.resolve(process.cwd(), './src/questions/assets/1.txt'), 'utf-8');
+//     console.log(content);
+//     content = yield readFileThunk(path.resolve(process.cwd(), './src/questions/assets/2.txt'), 'utf-8');
+//     console.log(content);
+//     return content;
+// }).then(result => {
+//     console.log(result);
+// });
+
+// 29. promise timeout
+// const timeoutPromise = (promise, timeout) => {
+//     return Promise.race([promise, new Promise((resolve, reject) => {
+//         setTimeout(() => {
+//             reject({
+//                 status: 'rejected',
+//                 reason: '请求超时!'
+//             });
+//         }, timeout);
+//     })]);
+// };
+// const timer = timeoutPromise(new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//         resolve({
+//             status: 'fulfilled',
+//             value: [{name: 'wtw', age: 28}]
+//         });
+//     }, 2000);
+// }), 1000);
+// timer.then(value => {
+//     console.log(value);
+// }).catch(reason => {
+//     console.log(reason);
+// });
+
+// 30. bubble sort(冒泡排序)
+// function bubbleSort(arr) {
+//     const length = arr.length;
+//     for (let i = 0; i < length; i++) {
+//         for (let j = 0; j < length - i; j++) {
+//             if (arr[j] > arr[j + 1]) {
+//                 const temp = arr[j];
+//                 arr[j] = arr[j + 1];
+//                 arr[j + 1] = temp;
+//             }
+//         }
+//     }
+//     return arr;
+// }
+//
+// const arr = [3, 15, 6, 19, 8, 4, 20, 7, 1, 9, 5, 2];
+// const result = bubbleSort(arr);
+// console.log(result);
+
+// 31. insert sort(插入排序)
+// function insertSort(arr) {
+//     const {length} = arr;
+//     for (let i = 0; i < length; i++) {
+//         let j = i;
+//         while (j > 0) {
+//             if (arr[j - 1] > arr[j]) {
+//                 const temp = arr[j];
+//                 arr[j] = arr[j - 1];
+//                 arr[j - 1] = temp;
+//             }
+//             j--;
+//         }
+//     }
+//     return arr;
+// }
+// const arr = [3, 15, 6, 19, 8, 4, 20, 7, 1, 9, 5, 2, 6];
+// const result = insertSort(arr);
+// console.log(result);
+
+// 32. merge sort(归并排序)
+// function merge(a, b) {
+//     const a_length = a.length,
+//         b_length = b.length,
+//         result = [];
+//     let i = 0,
+//         j = 0;
+//     while (i < a_length && j < b_length) {
+//         if (a[i] <= b[j]) {
+//             result.push(a[i]);
+//             i++;
+//         } else {
+//             result.push(b[j]);
+//             j++;
+//         }
+//     }
+//     if (i === a_length && j < b_length) {
+//         while (j < b_length) {
+//             result.push(b[j]);
+//             j++;
+//         }
+//     }
+//     if (j === b_length && i < a_length) {
+//         while (i < a_length) {
+//             result.push(a[i]);
+//             i++;
+//         }
+//     }
+//     return result;
+// }
+// function mergeSort(arr) {
+//     const length = arr.length;
+//     if (length <= 1) {
+//         return arr;
+//     }
+//     const middle = Math.floor(length / 2),
+//         left = arr.slice(0, middle),
+//         right = arr.slice(middle);
+//     return merge(mergeSort(left), mergeSort(right));
+// }
+// const arr = [3, 15, 6, 19, 8, 4, 20, 7, 1, 9, 5, 2, 6];
+// const result = mergeSort(arr);
+// console.log(result);
+
+// 33. quick sort(快速排序)
+// function benchMark(arr, left, right) {
+//     const x = arr[left];
+//     let i = left,
+//         j = right;
+//     while (i < j) {
+//         while (i < j && arr[j] >= x) {
+//             j--;
+//         }
+//         if (i < j) {
+//             arr[i] = arr[j];
+//         }
+//         while (i < j && arr[i] <= x) {
+//             i++;
+//         }
+//         if (i < j) {
+//             arr[j] = arr[i];
+//         }
+//     }
+//     arr[i] = x;
+//     return i;
+// }
+// function quickSort(arr, left = 0, right = arr.length - 1) {
+//     if (left < right) {
+//         const index = benchMark(arr, left, right);
+//         quickSort(arr, left, index - 1);
+//         quickSort(arr, index + 1, right);
+//     }
+//     return arr;
+// }
+// const arr = [3, 15, 6, 19, 8, 4, 20, 7, 1, 9, 4, 5, 2, 6, 10, 0, 17];
+// const result = quickSort(arr);
+// console.log(result);
+
+// 34. tapable
+// const {
+    // SyncHook,
+    // SyncBailHook,
+    // SyncWaterfallHook,
+    // AsyncSeriesHook,
+    // AsyncSeriesBailHook,
+    // AsyncSeriesWaterfallHook,
+// } = require('tapable');
+// class Car {
+//     constructor() {
+//         this.hooks = {
+//             accelerate: new AsyncSeriesWaterfallHook(['Accelerate'])
+//         }
+//     }
+// }
+// const car = new Car();
+
+// SyncHook
+// this.call = function lazyCompile(Accelerate) {
+//     const fn = function (Accelerate) {
+//         'use strict';
+//         var _context;
+//         var _x = this._x;
+//         var _fn0 = _x[0];
+//         _fn0(Accelerate);
+//         var _fn1 = _x[1];
+//         _fn1(Accelerate);
+//     };
+//     return fn(Accelerate);
+// }
+// car.hooks.accelerate.tap('WarningLamp', (Accelerate) => {
+//     console.log(`car is accelerate to ${Accelerate}~`);
+//     return Accelerate;
+// });
+// const result = car.hooks.accelerate.call(200);
+// console.log(result);
+
+// SyncBailHook
+// this.call = function lazyCompile(Accelerate) {
+//     function fn(Accelerate) {
+//         'use strict';
+//         var _context;
+//         var _x = this._x;
+//         var _fn0 = _x[0];
+//         var _result0 = _fn0(Accelerate);
+//         if (_result0 !== undefined) {
+//             return _result0;
+//         } else {
+//             var _fn1 = _x[1];
+//             var _result1 = _fn1(Accelerate);
+//             if (_result1 !== undefined) {
+//                 return _result1;
+//             } else {
+//             }
+//         }
+//     }
+//     return fn(Accelerate);
+// }
+// car.hooks.accelerate.tap('WarningLamp', (Accelerate) => {
+//     console.log(`car is accelerate to ${Accelerate}~`);
+// });
+// car.hooks.accelerate.tap('WarningLamp', (Accelerate) => {
+//     console.log(`car is accelerate to ${Accelerate} again~`);
+//     return Accelerate + 80;
+// });
+// const result = car.hooks.accelerate.call(245);
+// console.log(result);
+
+// SyncWaterfallHook
+// this.call = function lazyCompile(Accelerate) {
+//     function fn(Accelerate) {
+//         'use strict';
+//         var _context;
+//         var _x = this._x;
+//         var _fn0 = _x[0];
+//         var _result0 = _fn0(Accelerate);
+//         if (_result0 !== undefined) {
+//             Accelerate = _result0;
+//         }
+//         var _fn1 = _x[1];
+//         var _result1 = _fn1(Accelerate);
+//         if (_result1 !== undefined) {
+//             Accelerate = _result1;
+//         }
+//         return Accelerate;
+//     }
+//     fn(Accelerate);
+// }
+// car.hooks.accelerate.tap('WarningLamp', (Accelerate) => {
+//     console.log(`car is accelerate to ${Accelerate}~`);
+//     return Accelerate + 70;
+// });
+// car.hooks.accelerate.tap('WarningLamp', (Accelerate) => {
+//     console.log(`car is accelerate to ${Accelerate} again~`);
+//     return Accelerate + 80;
+// });
+// const result = car.hooks.accelerate.call(245);
+// console.log(result);
+
+// AsyncSeriesHook
+// this.callAsync = function lazyCompile(Accelerate, callback) {
+//     function fn(Accelerate, _callback) {
+//         'use strict';
+//         var _context;
+//         var _x = this._x;
+//         function _next0() {
+//             var _fn1 = _x[1];
+//             _fn1(Accelerate, _err1 => {
+//                 if (_err1) {
+//                     _callback(_err1);
+//                 } else {
+//                     _callback();
+//                 }
+//             });
+//         }
+//         var _fn0 = _x[0];
+//         _fn0(Accelerate, _err0 => {
+//             if (_err0) {
+//                 _callback(_err0);
+//             } else {
+//                 _next0();
+//             }
+//         });
+//     }
+//     fn(Accelerate, callback);
+// }
+// car.hooks.accelerate.tapAsync('WarningLamp', (Accelerate, callback) => {
+//     console.log(`car is accelerate to ${Accelerate}~`);
+//     callback();
+// });
+// car.hooks.accelerate.tapAsync('WarningLamp', (Accelerate, callback) => {
+//     console.log(`car is accelerate to ${Accelerate} again~`);
+//     callback();
+// });
+// car.hooks.accelerate.callAsync(245, (err, result) => {
+//     if(err) console.log(err);
+//     console.log(`the result is ${result}`);
+// });
+
+// AsyncSeriesBailHook
+// this.callAsync = function lazyCompile(Accelerate, callback) {
+//     function fn(Accelerate, _callback) {
+//         'use strict';
+//         var _context;
+//         var _x = this._x;
+//         function _next0() {
+//             var _fn1 = _x[1];
+//             _fn1(Accelerate, (_err1, _result1) => {
+//                 if (_err1) {
+//                     _callback(_err1);
+//                 } else {
+//                     if (_result1 !== undefined) {
+//                         _callback(null, _result1);
+//                     } else {
+//                         _callback();
+//                     }
+//                 }
+//             });
+//         }
+//         var _fn0 = _x[0];
+//         _fn0(Accelerate, (_err0, _result0) => {
+//             if (_err0) {
+//                 _callback(_err0);
+//             } else {
+//                 if (_result0 !== undefined) {
+//                     _callback(null, _result0);
+//                 } else {
+//                     _next0();
+//                 }
+//             }
+//         });
+//     }
+//     fn(Accelerate, callback);
+// };
+// car.hooks.accelerate.tapAsync('WarningLamp', (Accelerate, callback) => {
+//     console.log(`car is accelerate to ${Accelerate}~`);
+//     callback(null, Accelerate + 100);
+// });
+// car.hooks.accelerate.tapAsync('WarningLamp', (Accelerate, callback) => {
+//     console.log(`car is accelerate to ${Accelerate} again~`);
+//     callback();
+// });
+// car.hooks.accelerate.callAsync(245, (err, result) => {
+//     if(err) console.log(err);
+//     console.log(`the result is ${result}`);
+// });
+
+// AsyncSeriesWaterfallHook
+// this.callAsync = function lazyCompile(Accelerate, callback) {
+//     function fn(Accelerate, _callback) {
+//         'use strict';
+//         var _context;
+//         var _x = this._x;
+//         function _next0() {
+//             var _fn1 = _x[1];
+//             _fn1(Accelerate, (_err1, _result1) => {
+//                 if (_err1) {
+//                     _callback(_err1);
+//                 } else {
+//                     if (_result1 !== undefined) {
+//                         Accelerate = _result1;
+//                     }
+//                     _callback(null, Accelerate);
+//                 }
+//             });
+//         }
+//         var _fn0 = _x[0];
+//         _fn0(Accelerate, (_err0, _result0) => {
+//             if (_err0) {
+//                 _callback(_err0);
+//             } else {
+//                 if (_result0 !== undefined) {
+//                     Accelerate = _result0;
+//                 }
+//                 _next0();
+//             }
+//         });
+//     }
+//     fn(Accelerate, callback);
+// };
+// car.hooks.accelerate.tapAsync('WarningLamp', (Accelerate, callback) => {
+//     console.log(`car is accelerate to ${Accelerate}~`);
+//     callback(null, Accelerate + 100);
+// });
+// car.hooks.accelerate.tapAsync('WarningLamp', (Accelerate, callback) => {
+//     console.log(`car is accelerate to ${Accelerate} again~`);
+//     callback(null, Accelerate + 75);
+// });
+// car.hooks.accelerate.callAsync(245, (err, result) => {
+//     if(err) console.log(err);
+//     console.log(`the result is ${result}`);
+// });
+
+// AsyncSeriesHook Promise
+// this.promise = function lazyCompile(Accelerate) {
+//     function fn(Accelerate) {
+//         return new Promise((_resolve, _reject) => {
+//             'use strict';
+//             var _context;
+//             var _x = this._x;
+//             var _sync = true;
+//             function _error(_err) {
+//                 if (_sync)
+//                     _resolve(Promise.resolve().then(() => {
+//                         throw _err
+//                     }));
+//                 else
+//                     _reject(_err);
+//             }
+//             function _next0() {
+//                 var _hasResult1 = false;
+//                 var _promise1 = _x[1];
+//                 if (!_promise1 || !_promise1.then)
+//                     throw new TypeError('Tap function (tapPromise) did not return promise (returned ' + _promise1 + ')');
+//                 _promise1.then(() => {
+//                     _hasResult1 = true;
+//                     _resolve();
+//                 }, _err1 => {
+//                     if (_hasResult1) throw _err1;
+//                     _error(_err1);
+//                 });
+//             }
+//             var _hasResult0 = false;
+//             var _promise0 = _x[0];
+//             if (!_promise0 || !_promise0.then)
+//                 throw new TypeError('Tap function (tapPromise) did not return promise (returned ' + _promise0 + ')');
+//             _promise0.then(() => {
+//                 _hasResult0 = true;
+//                 _next0();
+//             }, _err0 => {
+//                 if (_hasResult0) throw _err0;
+//                 _error(_err0);
+//             });
+//             _sync = false;
+//         });
+//     }
+//     return fn(Accelerate);
+// };
+// car.hooks.accelerate.tapPromise('WarningLamp', (Accelerate) => {
+//     return new Promise((resolve, reject) => {
+//         console.log(`car is accelerate to ${Accelerate}~`);
+//         resolve(Accelerate);
+//     });
+// });
+// car.hooks.accelerate.tapPromise('WarningLamp', (Accelerate) => {
+//     return new Promise((resolve, reject) => {
+//         console.log(`car is accelerate to ${Accelerate} again~`);
+//         resolve(Accelerate);
+//     });
+// });
+// car.hooks.accelerate.promise(245).then(value => {
+//     console.log(value);
+// });
+
+// AsyncSeriesBailHook Promise
+// this.promise = function lazyCompile(Accelerate) {
+//     function fn(Accelerate) {
+//         return new Promise((_resolve, _reject) => {
+//             'use strict';
+//             var _context;
+//             var _x = this._x;
+//             var _sync = true;
+//             function _error(_err) {
+//                 if (_sync)
+//                     _resolve(Promise.resolve().then(() => {
+//                         throw _err;
+//                     }));
+//                 else
+//                     _reject(_err);
+//             }
+//             function _next0() {
+//                 var _hasResult1 = false;
+//                 var _promise1 = _x[1];
+//                 if (!_promise1 || !_promise1.then)
+//                     throw new TypeError('Tap function (tapPromise) did not return promise (returned ' + _promise1 + ')');
+//                 _promise1.then(_result1 => {
+//                     _hasResult1 = true;
+//                     if (_result1 !== undefined) {
+//                         _resolve(_result1);
+//                     } else {
+//                         _resolve();
+//                     }
+//                 }, _err1 => {
+//                     if (_hasResult1) throw _err1;
+//                     _error(_err1);
+//                 });
+//             }
+//             var _hasResult0 = false;
+//             var _promise0 = _x[0];
+//             if (!_promise0 || !_promise0.then)
+//                 throw new TypeError('Tap function (tapPromise) did not return promise (returned ' + _promise0 + ')');
+//             _promise0.then(_result0 => {
+//                 _hasResult0 = true;
+//                 if (_result0 !== undefined) {
+//                     _resolve(_result0);
+//                 } else {
+//                     _next0();
+//                 }
+//             }, _err0 => {
+//                 if (_hasResult0) throw _err0;
+//                 _error(_err0);
+//             });
+//             _sync = false;
+//         });
+//     }
+//
+//     return fn(Accelerate);
+// };
+// car.hooks.accelerate.tapPromise('WarningLamp', (Accelerate) => {
+//     return new Promise((resolve, reject) => {
+//         console.log(`car is accelerate to ${Accelerate}~`);
+//         resolve();
+//     });
+// });
+// car.hooks.accelerate.tapPromise('WarningLamp', (Accelerate) => {
+//     return new Promise((resolve, reject) => {
+//         console.log(`car is accelerate to ${Accelerate} again~`);
+//         resolve();
+//     });
+// });
+// car.hooks.accelerate.promise(245).then(value => {
+//     console.log(`the result is ${value}`);
+// });
+
+// AsyncSeriesWaterfallHook Promise
+// this.promise = function lazyCompile(Accelerate) {
+//     function fn(Accelerate) {
+//         return new Promise((_resolve, _reject) => {
+//             'use strict';
+//             var _context;
+//             var _x = this._x;
+//             var _sync = true;
+//             function _error(_err) {
+//                 if (_sync)
+//                     _resolve(Promise.resolve().then(() => {
+//                         throw _err;
+//                     }));
+//                 else
+//                     _reject(_err);
+//             }
+//             function _next0() {
+//                 var _hasResult1 = false;
+//                 var _promise1 = _x[1];
+//                 if (!_promise1 || !_promise1.then)
+//                     throw new TypeError('Tap function (tapPromise) did not return promise (returned ' + _promise1 + ')');
+//                 _promise1.then(_result1 => {
+//                     _hasResult1 = true;
+//                     if (_result1 !== undefined) {
+//                         Accelerate = _result1;
+//                     }
+//                     _resolve(Accelerate);
+//                 }, _err1 => {
+//                     if (_hasResult1) throw _err1;
+//                     _error(_err1);
+//                 });
+//             }
+//             var _hasResult0 = false;
+//             var _promise0 = _x[0];
+//             if (!_promise0 || !_promise0.then)
+//                 throw new TypeError('Tap function (tapPromise) did not return promise (returned ' + _promise0 + ')');
+//             _promise0.then(_result0 => {
+//                 _hasResult0 = true;
+//                 if (_result0 !== undefined) {
+//                     Accelerate = _result0;
+//                 }
+//                 _next0();
+//             }, _err0 => {
+//                 if (_hasResult0) throw _err0;
+//                 _error(_err0);
+//             });
+//             _sync = false;
+//         });
+//     }
+//     return fn(Accelerate);
+// };
+// car.hooks.accelerate.tapPromise('WarningLamp', (Accelerate) => {
+//     return new Promise((resolve, reject) => {
+//         console.log(`car is accelerate to ${Accelerate}~`);
+//         resolve(Accelerate + 80);
+//     });
+// });
+// car.hooks.accelerate.tapPromise('WarningLamp', (Accelerate) => {
+//     return new Promise((resolve, reject) => {
+//         console.log(`car is accelerate to ${Accelerate} again~`);
+//         resolve(Accelerate + 190);
+//     });
+// });
+// car.hooks.accelerate.promise(245).then(value => {
+//     console.log(`the result is ${value}`);
+// });
