@@ -514,3 +514,115 @@
 //     const bodyLength = buffer.readInt32BE(2);
 //     return 6 + bodyLength;
 // }
+
+// protocol-buffers
+// const pb = require('protocol-buffers');
+// const fs = require('fs');
+// const path = require('path');
+// const {Lessons, LessonsIdList} = pb(fs.readFileSync(path.resolve(process.cwd(), './src/questions/protos/data.proto')));
+// const data = {
+//     136797: "01 | 课程介绍",
+//     136798: "02 | 内容综述",
+//     136799: "03 | Node.js是什么？",
+//     136800: "04 | Node.js可以用来做什么？",
+//     136801: "05 | 课程实战项目介绍",
+//     136803: "06 | 什么是技术预研？",
+//     136804: "07 | Node.js开发环境安装",
+//     136806: "08 | 第一个Node.js程序：石头剪刀布游戏",
+//     136807: "09 | 模块：CommonJS规范",
+//     136808: "10 | 模块：使用模块规范改造石头剪刀布游戏",
+//     136809: "11 | 模块：npm",
+//     141994: "12 | 模块：Node.js内置模块",
+//     143517: "13 | 异步：非阻塞I/O",
+//     143557: "14 | 异步：异步编程之callback",
+//     143564: "15 | 异步：事件循环",
+//     143644: "16 | 异步：异步编程之Promise",
+//     146470: "17 | 异步：异步编程之async/await",
+//     146569: "18 | HTTP：什么是HTTP服务器？",
+//     146582: "19 | HTTP：简单实现一个HTTP服务器"
+// };
+// const lessonIds = [
+//     136797,
+//     136798,
+//     136799,
+//     136800,
+//     136801,
+//     136803,
+//     136804,
+//     136806,
+//     136807,
+//     136808,
+//     136809,
+//     141994,
+//     143517,
+//     143557,
+//     143564,
+//     143644,
+//     146470,
+//     146569,
+//     146582
+// ];
+// const Lessons_proto = Object.entries(data).map(([id, name]) => {
+//     return Lessons.encode({id, name});
+// });
+// console.log(Lessons_proto);
+// const Lessons_list = Lessons_proto.map(item => {
+//     const {id, name} = Lessons.decode(item);
+//     return [id, name];
+// });
+// console.log(Lessons_list);
+// const Lessons_data = Object.fromEntries(Lessons_list);
+// console.log(Lessons_data);
+// const LessonsIds_proto = LessonsIdList.encode({
+//     list: lessonIds
+// });
+// console.log(LessonsIds_proto);
+// const LessonsIds_o = LessonsIdList.decode(LessonsIds_proto);
+// console.log(LessonsIds_o);
+
+// ES6 模板引擎
+// const vm = require('vm');
+// const user = {
+//     name: 'wtw'
+// };
+// const templateES6 = `<h1>${user.name}</h1>`;
+// const templateVM = vm.runInNewContext('`<h1>${user.name}</h1>`', {user});
+// console.log(templateES6);
+// console.log(templateVM);
+// ES6 模板引擎 XSS
+// const vm = require('vm');
+// const user = {
+//     name: 'wtw'
+// };
+// const templateVM = vm.runInNewContext('`<h1>${_("<script></script>")}</h1>`', {
+//     user,
+//     _(str) {
+//         if (typeof str === 'undefined') {
+//             return '';
+//         }
+//         return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+//     }
+// });
+// console.log(templateVM);
+// ES6 模板引擎子模板
+// const vm = require('vm');
+// const user = {name: 'wtw'};
+// const template = {
+//     templateA: '`<h1>${include(\'templateB\')}</h1>`',
+//     templateB: '`<p>${user.name}</p>`'
+// };
+// const context = {
+//     user,
+//     include(templateName) {
+//         return template[templateName]();
+//     }
+// };
+// Object.entries(template).forEach(([key, value]) => {
+//     template[key] = vm.runInNewContext(`
+//         (function() {
+//             return ${value};
+//         })
+//     `, context);
+// });
+// const result = template['templateA']();
+// console.log(result);

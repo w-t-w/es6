@@ -1,0 +1,8 @@
+message Lessons {
+  required int32 id = 1;
+  required string name = 2;
+}
+
+message LessonsIdList {
+  repeated int32 list = 1;
+}
