@@ -626,3 +626,7 @@
 // });
 // const result = template['templateA']();
 // console.log(result);
+// const vm = require('vm');
+// const context = vm.createContext({});
+// const result = vm.runInContext(`function render() {return 111};render();`, context);
+// console.log(result);
