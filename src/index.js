@@ -14,6 +14,7 @@ import './jsModule';
 import './additional';
 import './test';
 import './questions';
+import './practice'
 
 
 
