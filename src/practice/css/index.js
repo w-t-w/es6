@@ -93,5 +93,5 @@
  * fixed: 绝对定位,基于整个浏览器 web 页面来定位的
  * static: 无定位,默认值
  * inherit: 会继承父元素的定位属性值
- * sticky: 绝对定位,是基于整个浏览器 web 页面来定位的
+ * sticky: 绝对定位,基本上是基于整个浏览器 web 页面来定位的,是 relative 与 fixed 的混合定位
  */
