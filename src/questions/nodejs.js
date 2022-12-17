@@ -630,3 +630,24 @@
 // const context = vm.createContext({});
 // const result = vm.runInContext(`function render() {return 111};render();`, context);
 // console.log(result);
+
+// 了不起的 Node.js
+// require('colors');
+// console.log('koa rainbow'.rainbow);
+
+// dateFormat
+// Date.prototype.__defineGetter__('ago', function () {
+//     const differ = (new Date().getTime() - this.getTime()) / 1000,
+//         day_differ = Math.floor(differ / 86400);
+//     return !day_differ &&
+//         ((differ < 60 && 'Just now') ||
+//         (differ < 72 && '1 minute ago') ||
+//         (differ < 3600 && `${Math.floor(differ / 60)} minutes ago`) ||
+//         (differ < 7200 && '1 hour ago') ||
+//         (differ < 86400 && `${Math.floor(differ / 3600)} hours ago`)) ||
+//         day_differ === 1 && 'Yesterday' ||
+//         day_differ < 7 && `${day_differ} days ago` ||
+//         `${Math.ceil(day_differ / 7)} weeks ago`
+// });
+// const date = new Date('1993-06-30');
+// console.log(date.ago);

@@ -1541,12 +1541,12 @@
 
 // 34. tapable
 // const {
-    // SyncHook,
-    // SyncBailHook,
-    // SyncWaterfallHook,
-    // AsyncSeriesHook,
-    // AsyncSeriesBailHook,
-    // AsyncSeriesWaterfallHook,
+// SyncHook,
+// SyncBailHook,
+// SyncWaterfallHook,
+// AsyncSeriesHook,
+// AsyncSeriesBailHook,
+// AsyncSeriesWaterfallHook,
 // } = require('tapable');
 // class Car {
 //     constructor() {
