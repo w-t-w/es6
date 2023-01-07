@@ -2013,22 +2013,24 @@
 // console.log('result', result);
 
 // tailCall fibonacci
-// const fibonacci = (n, n1 = 0, n2 = 1) => (n === 0) ? n1 : fibonacci(n - 1, n2, n1 + n2);
-// const result = fibonacci(10);
+// const fibonacci = (n = 0, n1 = 0, n2 = 1) => (n === 0) ? n1 : fibonacci(n - 1, n2, n1 + n2);
+// let result = fibonacci(40);
+// console.log('result:', result);
+// result = fibonacci(40);
 // console.log('result:', result);
 
 // cache fibonacci
 // const memo = (fn, hasher) => {
-//     function memoFunc(...args) {
-//         const cache = memoFunc.cache;
-//         const hashKey = hasher ? hasher(...args) : args[0];
-//         if (!cache[hashKey])
-//             cache[hashKey] = fn(...args);
+//     function memoFibonacci(...args) {
+//         const cache = memoFibonacci.cache;
+//         const hashKey = typeof hasher !== 'undefined' ? hasher.apply(this, args) : args[0];
+//         if(!cache[hashKey]) {
+//             cache[hashKey] = fn.apply(this, args);
+//         }
 //         return cache[hashKey];
 //     }
-//
-//     memoFunc.cache = {};
-//     return memoFunc;
+//     memoFibonacci.cache = {};
+//     return memoFibonacci;
 // };
 // const fibonacci = n => (n === 1 || n === 0) ? n : fibonacci(n - 1) + fibonacci(n - 2);
 // const memoFibonacci = memo(fibonacci);
@@ -2038,8 +2040,8 @@
 // console.log(result);
 
 // curry
-// const curry = fn => function cacheCurry(...args) {
-//     return args.length >= fn.length ? fn(...args) : (...innerArgs) => cacheCurry(...args, ...innerArgs);
+// const curry = fn => function cacheFunc(...args) {
+//     return (args.length >= fn.length) ? fn.apply(this, args) : (...innerArgs) => cacheFunc(...args, ...innerArgs);
 // };
 // const curried = (a, b, c) => a + b + c;
 // const curryResult = curry(curried);
@@ -2053,39 +2055,9 @@
 // console.log('result', result);
 
 // debounce
-// const debounce = (fn, timeout) => {
-//     let timer = null;
-//     return (...args) => {
-//         if (timer) {
-//             clearTimeout(timer);
-//             timer = null;
-//         }
-//         timer = setTimeout(() => {
-//             fn(...args);
-//         }, timeout);
-//     };
-// };
+
 
 // throttle
-// const throttle = (fn, timeout) => {
-//     let timer = null,
-//         firstRequest = true;
-//     return (...args) => {
-//         if (timer) {
-//             return false;
-//         }
-//         if (firstRequest) {
-//             fn(...args);
-//             firstRequest = false;
-//             return true;
-//         }
-//         timer = setTimeout(() => {
-//             fn(...args);
-//             clearTimeout(timer);
-//             timer = null;
-//         }, timeout);
-//     };
-// };
 
 // factorial(阶乘)
 // const factorial = n => n === 1 ? n : n * factorial(n - 1);
