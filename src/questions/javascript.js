@@ -2055,17 +2055,46 @@
 // console.log('result', result);
 
 // debounce
-
+// const debounce = (fn, timeout) => {
+//     let timer = null;
+//     return function (...args) {
+//         if (timer) {
+//             clearTimeout(timer);
+//             timer = null;
+//         }
+//         timer = setTimeout(() => {
+//             fn.apply(this, args);
+//         }, timeout);
+//     };
+// };
 
 // throttle
+// const throttle = (fn, timeout) => {
+//     let timer = null,
+//         firstRequest = true;
+//     return function (...args) {
+//         if (timer) {
+//             return false;
+//         }
+//         if (firstRequest) {
+//             fn.apply(this, args);
+//             firstRequest = false;
+//             return true;
+//         }
+//         timer = setTimeout(() => {
+//             fn.apply(this, args);
+//             clearTimeout(timer);
+//             timer = null;
+//         }, timeout);
+//     }
+// };
 
 // factorial(阶乘)
-// const factorial = n => n === 1 ? n : n * factorial(n - 1);
+// const factorial = (n = 1) => n === 1 ? n : n * factorial(n - 1);
 // const result = factorial(5);
 // console.log('result', result);
 
 // tail factorial
-// const factorial = (n, p = 1) => n === 1 ? n * p : factorial(n - 1, n * p);
 // const result = factorial(5);
 // console.log('result', result);
 
