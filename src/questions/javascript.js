@@ -2100,7 +2100,7 @@
 // console.log('result', result);
 
 // shallow copy
-// const shallowCopy = (o) => {
+// const shallowCopy = o => {
 //     const _o = Array.isArray(o) ? [] : {};
 //     for (const key of Reflect.ownKeys(o)) {
 //         if (o.hasOwnProperty(key)) {
@@ -2130,7 +2130,7 @@
 // console.log(me, wtw);
 
 // deep clone
-// const deepClone = (o) => {
+// const deepClone = o => {
 //     const _o = Array.isArray(o) ? [] : {};
 //     for (const key of Reflect.ownKeys(o)) {
 //         if (o.hasOwnProperty(key)) {
@@ -2165,9 +2165,9 @@
 // console.log(me, wtw);
 
 // deep clone loop
-// const deepCloneFunc = (o) => {
+// const deepCloneFunc = o => {
 //     const source = new WeakMap();
-//     const deepClone = (o) => {
+//     const deepClone = o => {
 //         const _o = Array.isArray(o) ? [] : {};
 //         const existObj = source.get(o);
 //         if (existObj) return existObj;
@@ -2210,8 +2210,8 @@
 // pick
 // const pick = (o, ...property) => {
 //     const source = new WeakMap();
-//     const deepClone = (o) => {
-//         const _o = Array.isArray(o) ? [] : {};
+//     const deepClone = o => {
+//         const _o = new WeakMap();
 //         const existObj = source.get(o);
 //         if (existObj) return existObj;
 //         source.set(o, o);
@@ -2251,21 +2251,20 @@
 // console.log(me, wtw);
 
 // new
-// const newCall = (fn, ...args) => {
+// function newCall(fn, ...args) {
 //     if (typeof fn !== 'function') {
 //         throw new TypeError('The first argument must be a function!');
 //     }
 //     const obj = {};
-//     const o = fn.apply(obj, args);
-//     const isObject = typeof o === 'object' && o !== null;
-//     const isFunction = typeof o === 'function';
+//     const result = fn.apply(obj, args);
+//     const isFunction = typeof result === 'function';
+//     const isObject = typeof result === 'object' && result !== null;
 //     if (isObject || isFunction) {
-//         return o;
+//         return result;
 //     }
-//     // obj.__proto__ = fn.prototype;
-//     Object.setPrototypeOf(obj, fn.prototype);
+//     obj.__proto__ = fn.prototype;
 //     return obj;
-// };
+// }
 // function Person(name, age) {
 //     this.name = name;
 //     this.age = age;
