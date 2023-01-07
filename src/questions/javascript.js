@@ -2100,7 +2100,26 @@
 // console.log('result', result);
 
 // shallow copy
-
+// const shallowCopy = (o) => {
+//     const _o = Array.isArray(o) ? [] : {};
+//     for (const key of Reflect.ownKeys(o)) {
+//         if (o.hasOwnProperty(key)) {
+//             _o[key] = o[key];
+//         }
+//     }
+//     return _o;
+// };
+// const me = {
+//     name: 'Gary',
+//     age: 29,
+//     hobby: {
+//         sports: 'basketball'
+//     },
+//     introduce() {
+//     },
+//     [Symbol.for('wtw')]: 'wtw',
+//     gender: 'boy'
+// };
 // const wtw = shallowCopy(me);
 // console.log(me, wtw);
 // wtw.name = 'wtw';
