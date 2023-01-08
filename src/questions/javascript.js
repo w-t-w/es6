@@ -2309,17 +2309,17 @@
 // const unit = (fn) => {
 //     try {
 //         fn();
-//     } catch (e) {
-//         console.error(e);
+//     } catch (err) {
+//         console.error(err);
 //     }
 // };
 // const test = (desc, result) => {
 //     return {
-//         run(expectResult) {
-//             if (result === expectResult) {
+//         run(expectedResult) {
+//             if (result === expectedResult) {
 //                 console.log(`${desc} is PASSED!`);
 //             } else {
-//                 console.error(`${desc} is FAILED: expected result should be ${expectResult}, but get ${result}`);
+//                 console.error(`${desc} is FAILED: the result should be ${expectedResult} but get ${result}`);
 //             }
 //         }
 //     };
@@ -2332,16 +2332,18 @@
 // });
 
 // call
-// Function.prototype.callBind = function (o, ...args) {
-//     if (typeof this !== 'function') {
-//         throw new TypeError('The type of the call must be a function!');
-//     }
-//     const symbol = Symbol.for('call');
-//     o[symbol] = this;
-//     const result = o[symbol](...args);
-//     delete o[symbol];
-//     return result;
-// };
+// if (typeof Function.prototype.callBind === 'undefined') {
+//     Function.prototype.callBind = function (context, ...args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('The type of the call must be a function!');
+//         }
+//         const symbol = Symbol.for('call');
+//         context[symbol] = this;
+//         const result = context[symbol](...args);
+//         delete context[symbol];
+//         return result;
+//     };
+// }
 // function Person(name, age) {
 //     this.name = name;
 //     this.age = age;
@@ -2357,16 +2359,18 @@
 // console.log(o);
 
 // apply
-// Function.prototype.applyBind = function (o, args) {
-//     if (typeof this !== 'function') {
-//         throw new TypeError('The type of the call must be a function!');
-//     }
-//     const symbol = Symbol.for('apply');
-//     o[symbol] = this;
-//     const result = o[symbol](...args);
-//     delete o[symbol];
-//     return result;
-// };
+// if (typeof Function.prototype.applyBind === 'undefined') {
+//     Function.prototype.applyBind = function (context, args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('The type of the apply must be a function!');
+//         }
+//         const symbol = Symbol.for('apply');
+//         context[symbol] = this;
+//         const result = context[symbol](...args);
+//         delete context[symbol];
+//         return result;
+//     };
+// }
 // function Person(name, age) {
 //     this.name = name;
 //     this.age = age;
@@ -2383,21 +2387,21 @@
 
 // bind
 // if (typeof Function.prototype.bindCall === 'undefined') {
-// }
-// Function.prototype.bindCall = function (context, ...args) {
-//     if (typeof this !== 'function') {
-//         throw new TypeError('The type of the bind call must be a function!');
-//     }
-//     const self = this;
-//     function F() {
-//     }
-//     const fBind = function (...innerArgs) {
-//         return self.apply(this instanceof fBind ? this : context, args.concat(innerArgs));
+//     Function.prototype.bindCall = function (context, ...args) {
+//         if(typeof this !== 'function') {
+//             throw new TypeError('The type of the bind call must be a function!');
+//         }
+//         const self = this;
+//         function F() {
+//         }
+//         const fBind = function (...innerArgs) {
+//             return self.apply(this instanceof fBind ? this : context, args.concat(innerArgs));
+//         };
+//         Object.setPrototypeOf(F.prototype, this.prototype);
+//         Object.setPrototypeOf(fBind.prototype, F.prototype);
+//         return fBind;
 //     };
-//     Object.setPrototypeOf(F.prototype, this.prototype);
-//     Object.setPrototypeOf(fBind.prototype, F.prototype);
-//     return fBind;
-// };
+// }
 // function Person(name, age) {
 //     this.name = name;
 //     this.age = age;
@@ -2424,12 +2428,12 @@
 //         function F() {
 //         }
 //         const fBind = function (...innerArgs) {
-//             return self.apply(!this || this === window ? context : this, args.concat(innerArgs));
-//         };
+//             return self.apply((!this || this === window) ? context : this, args.concat(innerArgs));
+//         }
 //         Object.setPrototypeOf(F.prototype, this.prototype);
 //         Object.setPrototypeOf(fBind.prototype, F.prototype);
 //         return fBind;
-//     };
+//     }
 // }
 // function Person(name, age) {
 //     this.name = name;
