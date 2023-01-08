@@ -3022,6 +3022,28 @@
 // });
 
 // promise timeout
+// const promiseTimeout = (promise, timeout) => {
+//     return Promise.race([promise, new Promise((resolve, rejected) => {
+//         setTimeout(() => {
+//             rejected({
+//                 status: 'rejected',
+//                 reason: '请求超时!'
+//             });
+//         }, timeout);
+//     })]);
+// };
+// promiseTimeout(new Promise(resolve => {
+//     setTimeout(() => {
+//         resolve({
+//             status: 'fulfilled',
+//             value:'请求完成!'
+//         });
+//     }, 3900);
+// }), 4000).then(value => {
+//     console.log(value);
+// }).catch(reason => {
+//     console.log(reason);
+// });
 
 // dateFormat ago
 
