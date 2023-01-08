@@ -2972,7 +2972,7 @@
 // });
 // console.log('right now!');
 
-// Generator Thunk
+// generator Thunk
 // const fs = require('fs');
 // const path = require('path');
 // const Thunk = fn => (...args) => callback => fn(...args, callback);
@@ -2992,6 +2992,33 @@
 //     console.log('1.txt:', result);
 //     result = yield readFile(path.resolve(process.cwd(), './src/questions/assets/2.txt'), 'utf-8');
 //     console.log('2.txt', result);
+// });
+
+// promise Generator Thunk
+// const fs = require('fs');
+// const path = require('path');
+// const Thunk = fn => (...args) => callback => fn(...args, callback);
+// const readFile = Thunk(fs.readFile);
+// const run = taskRun => {
+//     return new Promise(resolve => {
+//         const task = taskRun();
+//         function next(err, data) {
+//             if (err) task.throw(err);
+//             const {value, done} = task.next(data);
+//             if (done) return resolve(value);
+//             value(next);
+//         }
+//         next();
+//     });
+// };
+// run(function* () {
+//     let result = yield readFile(path.resolve(process.cwd(), './src/questions/assets/1.txt'), 'utf-8');
+//     console.log('1.txt:', result);
+//     result = yield readFile(path.resolve(process.cwd(), './src/questions/assets/2.txt'), 'utf-8');
+//     console.log('2.txt:', result);
+//     return result;
+// }).then(value => {
+//     console.log('done:', value);
 // });
 
 // promise timeout
