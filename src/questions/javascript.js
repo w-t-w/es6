@@ -1971,3 +1971,703 @@
 //     console.log(`the result is ${value}`);
 // });
 
+// compose
+// const compose = (...args) => x => args.reduceRight((a, b) => b(a), x);
+// const add = x => x + x;
+// const multiply = x => x * x;
+// const result = compose(multiply, add)(20);
+// console.log('result:', result);
+
+// pipe
+// const pipe = (...args) => x => args.reduce((a, b) => b(a), x);
+// const add = x => x + x;
+// const multiply = x => x * x;
+// const result = pipe(add, multiply)(40);
+// console.log(result);
+
+// flat
+// const flat = (arr = [], initial = []) => arr.reduce((a, b) => Array.isArray(b) ? flat(b, a) : a.concat(b), initial);
+// const arr = [1, [2, 3], [4, 5, [6, 7]], [8, 9, [10, 11, [12, 13, [14, 15]]]], [16, 17, [18, 19, [20, 21, 22, [23, 24, 25, [26, 27, [28, 29]]]]]], [30, 31, 32, 33, [34, 35, [36, 37, [38, 39, [40, 41, [42, 43, 44, [45, 46, [47, 48, 49, [50]]]]]]]]]];
+// const result = flat(arr);
+// console.log('arr:', result);
+
+// layer Flat
+// const flat = (arr = [], layer = 1, initial = []) => arr.reduce((a, b) => (Array.isArray(b) && layer > 1) ? flat(b, layer - 1, a) : a.concat(b), initial);
+// const arr = [1, [2, 3], [4, 5, [6, 7]], [8, 9, [10, 11, [12, 13, [14, 15]]]], [16, 17, [18, 19, [20, 21, 22, [23, 24, 25, [26, 27, [28, 29]]]]]], [30, 31, 32, 33, [34, 35, [36, 37, [38, 39, [40, 41, [42, 43, 44, [45, 46, [47, 48, 49, [50, 51, 52]]]]]]]]]];
+// let result = flat(arr);
+// console.log('result', result);
+// result = flat(arr, 2);
+// console.log('result', result);
+// result = flat(arr, 3);
+// console.log('result', result);
+// result = flat(arr, 4);
+// console.log('result', result);
+// result = flat(arr, 5);
+// console.log('result', result);
+// result = flat(arr, 6);
+// console.log('result', result);
+// result = flat(arr, 7);
+// console.log('result', result);
+// result = flat(arr, 8);
+// console.log('result', result);
+// result = flat(arr, 9);
+// console.log('result', result);
+
+// fibonacci
+// const fibonacci = n => (n === 0 || n === 1) ? n : fibonacci(n - 1) + fibonacci(n - 2);
+// let result = fibonacci(40);
+// console.log('result', result);
+// result = fibonacci(40);
+// console.log('result', result);
+
+// tailCall Fibonacci
+// const fibonacci = (n = 0, n1 = 0, n2 = 1) => n === 0 ? n1 : fibonacci(n - 1, n2, n1 + n2);
+// let result = fibonacci(40);
+// console.log('result', result);
+// result = fibonacci(40);
+// console.log('result', result);
+
+// cache Fibonacci
+// const memo = (fn, hasher) => {
+//     const memoFunc = (...args) => {
+//         const cache = memoFunc.cache;
+//         const hashKey = typeof hasher !== 'undefined' ? hasher(...args) : args[0];
+//         if (!cache[hashKey]) {
+//             cache[hashKey] = fn(...args);
+//         }
+//         return cache[hashKey];
+//     };
+//     memoFunc.cache = {};
+//     return memoFunc;
+// };
+// const fibonacci = n => (n === 0 || n === 1) ? n : fibonacci(n - 1) + fibonacci(n - 2);
+// const fibonacciMemo = memo(fibonacci);
+// let result = fibonacciMemo(40);
+// console.log('result', result);
+// result = fibonacciMemo(40);
+// console.log('result', result);
+
+// curry
+// const curry = fn => function curryCallee(...args) {
+//     return (args.length >= fn.length) ? fn.apply(this, args) : (...innerArgs) => curryCallee.apply(this, args.concat(innerArgs));
+// };
+// const curried = (a, b, c) => [a, b, c];
+// const curryFunc = curry(curried);
+// let result = curryFunc(1, 2, 3);
+// console.log('result', result);
+// result = curryFunc(4)(5)(6);
+// console.log('result', result);
+// result = curryFunc(7, 8)(9);
+// console.log('result', result);
+// result = curryFunc(10)(11, 12);
+// console.log('result', result);
+// result = curryFunc(13)(14)(15);
+// console.log('result', result);
+
+// debounce
+// const debounce = (fn, timeout) => {
+//     let timer = null;
+//     return (...args) => {
+//         if (timer) {
+//             clearTimeout(timer);
+//             timer = null;
+//         }
+//         timer = setTimeout(() => {
+//             fn(...args);
+//         }, timeout);
+//     };
+// };
+
+// throttle
+// const throttle = (fn, timeout) => {
+//     let timer = null,
+//         firstRequest = true;
+//     return (...args) => {
+//         if (timer) {
+//             return false;
+//         }
+//         if (firstRequest) {
+//             fn(...args);
+//             firstRequest = false;
+//             return true;
+//         }
+//         timer = setTimeout(() => {
+//             fn(...args);
+//             clearTimeout(timer);
+//             timer = null;
+//         }, timeout);
+//     };
+// };
+
+// factorial
+// const factorial = (n = 1) => n === 1 ? n : n * factorial(n - 1);
+// const result = factorial(12);
+// console.log('result', result);
+
+// tailCall Factorial
+// const factorial = (n = 1, p = 1) => n === 1 ? n * p : factorial(n - 1, n * p);
+// const result = factorial(12);
+// console.log('result', result);
+
+// shallow Copy
+// const shallowCopy = o => {
+//     const _o = Array.isArray(o) ? [] : {};
+//     for (const key of Reflect.ownKeys(o)) {
+//         if (o.hasOwnProperty(key)) {
+//             _o[key] = o[key];
+//         }
+//     }
+//     return _o;
+// };
+// const lover = Symbol.for('abby');
+// const me = {
+//     name: 'wtw',
+//     age: 29,
+//     gender: true,
+//     introduce() {
+//     },
+//     [lover]: 'zhaoYue',
+//     hobby: {
+//         sports: {
+//             ball: 'basketball'
+//         }
+//     }
+// };
+// const meAno = shallowCopy(me);
+// meAno.age = 30;
+// meAno.name = 'Gary';
+// me.hobby.sports.ball = 'football';
+// console.log(me, meAno);
+
+// deep Clone
+// const deepClone = o => {
+//     const _o = Array.isArray(o) ? [] : {};
+//     for (const key of Reflect.ownKeys(o)) {
+//         if (o.hasOwnProperty(key)) {
+//             if (o[key] && typeof o[key] === 'object') {
+//                 _o[key] = deepClone(o[key]);
+//             } else {
+//                 _o[key] = o[key];
+//             }
+//         }
+//     }
+//     return _o;
+// };
+// const lover = Symbol.for('abby');
+// const me = {
+//     name: 'wtw',
+//     age: 29,
+//     gender: true,
+//     introduce() {
+//     },
+//     [lover]: 'zhaoYue',
+//     hobby: {
+//         sports: {
+//             ball: 'basketball'
+//         }
+//     }
+// };
+// me.own = me;
+// const meAno = deepClone(me);
+// meAno.age = 30;
+// meAno.name = 'Gary';
+// me.hobby.sports.ball = 'football';
+// console.log(me, meAno);
+
+// deep Clone Loop
+// const deepClone = o => {
+//     const source = new WeakMap();
+//     const deepCloneFunc = o => {
+//         const _o = Array.isArray(o) ? [] : {};
+//         const existObj = source.get(o);
+//         if (existObj) return existObj;
+//         source.set(o, o);
+//         for (const key of Reflect.ownKeys(o)) {
+//             if (o.hasOwnProperty(key)) {
+//                 if (o[key] && typeof o[key] === 'object') {
+//                     _o[key] = deepCloneFunc(o[key]);
+//                 } else {
+//                     _o[key] = o[key];
+//                 }
+//             }
+//         }
+//         return _o;
+//     };
+//     return deepCloneFunc(o);
+// };
+// const lover = Symbol.for('abby');
+// const me = {
+//     name: 'wtw',
+//     age: 29,
+//     gender: true,
+//     introduce() {
+//     },
+//     [lover]: 'zhaoYue',
+//     hobby: {
+//         sports: {
+//             ball: 'basketball'
+//         }
+//     }
+// };
+// me.own = me;
+// const meAno = deepClone(me);
+// meAno.age = 30;
+// meAno.name = 'Gary';
+// me.hobby.sports.ball = 'football';
+// console.log(me, meAno);
+
+// pick
+// const pick = (o, ...property) => {
+//     const source = new WeakMap();
+//     const deepClone = o => {
+//         const _o = Array.isArray(o) ? [] : {};
+//         const existObj = source.get(o);
+//         if (existObj) return existObj;
+//         source.set(o, o);
+//         for (const key of Reflect.ownKeys(o)) {
+//             if (o.hasOwnProperty(key) && property.includes(key)) {
+//                 if (o[key] && typeof o[key] === 'object') {
+//                     _o[key] = deepClone(o[key]);
+//                 } else {
+//                     _o[key] = o[key];
+//                 }
+//             }
+//         }
+//         return _o;
+//     };
+//     return deepClone(o);
+// };
+// const lover = Symbol.for('abby');
+// const me = {
+//     name: 'wtw',
+//     age: 29,
+//     gender: true,
+//     introduce() {
+//     },
+//     [lover]: 'zhaoYue',
+//     hobby: {
+//         sports: {
+//             ball: 'basketball'
+//         }
+//     }
+// };
+// me.own = me;
+// const meAno = pick(me, 'name', 'age', 'own', 'hobby', 'sports', 'ball', lover);
+// meAno.age = 30;
+// meAno.name = 'Gary';
+// me.hobby.sports.ball = 'football';
+// console.log(me, meAno);
+
+// new
+// const newCall = (fn, ...args) => {
+//     if (typeof fn !== 'function') {
+//         throw new TypeError('The fn argument must be a function');
+//     }
+//     const obj = {};
+//     const o = fn.apply(this, args);
+//     const isObject = (typeof o === 'object') && o !== null;
+//     const isFunction = typeof o === 'function';
+//     if (isObject || isFunction) {
+//         return o;
+//     }
+//     // obj.__proto__ = fn.prototype;
+//     Object.setPrototypeOf(obj, fn.prototype);
+//     return obj;
+// };
+
+// instanceof
+// const instanceofCall = (target, targetClass) => {
+//     if (!target || !targetClass || !target.__proto__ || !targetClass.prototype) {
+//         throw new TypeError();
+//     }
+//     let current = target.__proto__;
+//     while (current) {
+//         if (current === targetClass.prototype) {
+//             return true;
+//         }
+//         current = current.__proto__;
+//     }
+//     return false;
+// };
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old~`);
+// };
+// const wtw = new Person('wtw', 28);
+// console.log(instanceofCall(wtw, Person));
+// console.log(instanceofCall(wtw, Object));
+// console.log(instanceofCall({}, Object));
+// console.log(instanceofCall({}, Person));
+
+// unit
+// const unit = fn => {
+//     try {
+//         fn();
+//     } catch (err) {
+//         console.error(err);
+//     }
+// };
+// const test = (desc, result) => {
+//     return {
+//         expected(expectResult) {
+//             if (result === expectResult) {
+//                 console.log(`${desc} is PASSED!`);
+//             } else {
+//                 console.error(`${desc} is FAILED: the expected result is ${expectResult}, but get ${result}`);
+//             }
+//         }
+//     };
+// };
+// const add = (a, b) => a + b;
+// unit(() => {
+//     test('3 + 4', add(3, 4)).expected(7);
+//     test('7 + 9', add(7, 9)).expected(16);
+//     test('8 + 11', add(8, 9)).expected(19);
+// });
+
+// call
+// if (typeof Function.prototype.callBind === 'undefined') {
+//     Function.prototype.callBind = function (context, ...args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('The call must be a function');
+//         }
+//         const symbol = Symbol.for('call');
+//         context[symbol] = this;
+//         const result = context[symbol](...args);
+//         delete context[symbol];
+//         return result;
+//     };
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// const wtw = {
+//     name: 'wtw',
+//     age: 29
+// };
+// Person.callBind(wtw, 'Gary', 44);
+// console.log(wtw);
+
+// apply
+// if (typeof Function.prototype.applyBind === 'undefined') {
+//     Function.prototype.applyBind = function (context, args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('The apply must be a function');
+//         }
+//         const symbol = Symbol.for('apply');
+//         context[symbol] = this;
+//         const result = context[symbol](...args);
+//         delete context[symbol];
+//         return result;
+//     };
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// const wtw = {
+//     name: 'wtw',
+//     age: 29
+// };
+// Person.applyBind(wtw, ['Gary', 34]);
+// console.log(wtw);
+
+// bind
+// if (typeof Function.prototype.bind === 'undefined') {
+//     Function.prototype.bind = function (context, ...args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('The bind must be a function');
+//         }
+//         const self = this;
+//         function F() {
+//         }
+//         const fBind = function (...innerArgs) {
+//             return self.apply(this instanceof fBind ? this : context, args.concat(innerArgs));
+//         };
+//         F.prototype = this.prototype;
+//         fBind.prototype = F.prototype;
+//         Object.setPrototypeOf(F.prototype, this.prototype);
+//         Object.setPrototypeOf(fBind.prototype, F.prototype);
+//         return fBind;
+//     };
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old~`);
+// };
+// const wtw = {name: 'wtw', age: 29};
+// const gary = Person.bind(wtw, 'Gary');
+// const o = new gary(32);
+// console.log(o);
+// gary(30);
+// console.log(wtw);
+
+// softBind
+// if (typeof Function.prototype.softBind === 'undefined') {
+//     Function.prototype.softBind = function (context, ...args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('The softBind must be a function');
+//         }
+//         const self = this;
+//         function F() {
+//         }
+//         const fBind = function (...innerArgs) {
+//             return self.apply((!this || this === window) ? context : this, args.concat(innerArgs));
+//         };
+//         Object.setPrototypeOf(F.prototype, this.prototype);
+//         Object.setPrototypeOf(fBind.prototype, F.prototype);
+//         return fBind;
+//     };
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old~`);
+// };
+// const wtw = {name: 'wtw', age: 29};
+// const whiteWood = {name: 'whiteWood', age: 36};
+// const gary = Person.softBind(wtw, 'Gary');
+// const o = new gary(32);
+// console.log(o);
+// gary(30);
+// console.log(wtw);
+// gary.call(whiteWood, 35);
+// console.log(whiteWood);
+// gary.apply(whiteWood, [48]);
+// console.log(whiteWood);
+
+// Promise
+// const PromiseCall = (() => {
+//     const PENDING = 'PENDING';
+//     const FULFILLED = 'FULFILLED';
+//     const REJECTED = 'REJECTED';
+//
+//     class Promise {
+//         constructor(fn) {
+//             this.status = PENDING;
+//             this.value = null;
+//             this.reason = null;
+//             this.onFulfilledCallbacks = [];
+//             this.onRejectedCallbacks = [];
+//             const resolve = value => {
+//                 if (this.status === PENDING) {
+//                     this.status = FULFILLED;
+//                     this.value = value;
+//                     this.onFulfilledCallbacks.forEach(callback => {
+//                         callback();
+//                     });
+//                 }
+//             };
+//             const rejected = reason => {
+//                 if (this.status === PENDING) {
+//                     this.status = REJECTED;
+//                     this.reason = reason;
+//                     this.onRejectedCallbacks.forEach(callback => {
+//                         callback();
+//                     });
+//                 }
+//             };
+//             try {
+//                 fn(resolve, rejected);
+//             } catch (err) {
+//                 rejected(err);
+//             }
+//         }
+//
+//         then(onFulfilled, onRejected) {
+//             if (typeof onFulfilled !== 'function') {
+//                 onFulfilled = value => value;
+//             }
+//             if (typeof onRejected !== 'function') {
+//                 onRejected = reason => {
+//                     if (reason instanceof Error)
+//                         throw reason;
+//                     else
+//                         throw new Error(reason);
+//                 };
+//             }
+//             let promise,
+//                 then;
+//             if (this.status === FULFILLED) {
+//                 promise = new Promise((resolve, rejected) => {
+//                     setTimeout(() => {
+//                         try {
+//                             (function thenable(value) {
+//                                 if (typeof onFulfilled !== 'function') {
+//                                     resolve(value);
+//                                 } else {
+//                                     then = value.then;
+//                                     if (typeof then === 'function') {
+//                                         then.call(this, y => {
+//                                             thenable.call(this, y);
+//                                         }, r => {
+//                                             rejected(r);
+//                                         })
+//                                     } else {
+//                                         const x = onFulfilled(value);
+//                                         resolvePromise(promise, x, resolve, rejected);
+//                                     }
+//                                 }
+//                             }.bind(this))(this.value);
+//                         } catch (err) {
+//                             rejected(err);
+//                         }
+//                     }, 0);
+//                 });
+//             }
+//             if (this.status === REJECTED) {
+//                 promise = new Promise((resolve, rejected) => {
+//                     setTimeout(() => {
+//                         try {
+//                             if (typeof onRejected !== 'function') {
+//                                 rejected(this.reason);
+//                             } else {
+//                                 const x = onRejected(this.reason);
+//                                 resolvePromise(promise, x, resolve, rejected);
+//                             }
+//                         } catch (err) {
+//                             rejected(err);
+//                         }
+//                     }, 0);
+//                 });
+//             }
+//             if (this.status === PENDING) {
+//                 promise = new Promise((resolve, rejected) => {
+//                     this.onFulfilledCallbacks.push(() => {
+//                         setTimeout(() => {
+//                             try {
+//                                 if (typeof onFulfilled !== 'function') {
+//                                     resolve(this.value);
+//                                 } else {
+//                                     (function thenable(value) {
+//                                         then = value.then;
+//                                         if (typeof then === 'function') {
+//                                             then.call(this, y => {
+//                                                 thenable.call(this, y)
+//                                             }, r => {
+//                                                 rejected(r);
+//                                             });
+//                                         } else {
+//                                             const x = onFulfilled(value);
+//                                             resolvePromise(promise, x, resolve, rejected)
+//                                         }
+//                                     }.bind(this))(this.value);
+//                                 }
+//                             } catch (err) {
+//                                 rejected(err);
+//                             }
+//                         }, 0);
+//                     });
+//                     this.onRejectedCallbacks.push(() => {
+//                         setTimeout(() => {
+//                             try {
+//                                 if (typeof onRejected !== 'function') {
+//                                     rejected(this.reason);
+//                                 } else {
+//                                     const x = onRejected(this.reason);
+//                                     resolvePromise(promise, x, resolve, rejected);
+//                                 }
+//                             } catch (err) {
+//                                 rejected(err);
+//                             }
+//                         }, 0);
+//                     });
+//                 });
+//             }
+//             return promise;
+//         }
+//     }
+//
+//     function resolvePromise(promise, x, resolve, rejected) {
+//         if (promise === x) {
+//             throw new TypeError('The promise and the return value are the same');
+//         }
+//         if (x instanceof Promise) {
+//             x.then(y => {
+//                 resolvePromise(promise, y, resolve, rejected);
+//             });
+//         }
+//         if (typeof x === 'object' || typeof x === 'function') {
+//             if (x === null) return rejected(x);
+//             let then,
+//                 call = false;
+//             try {
+//                 then = x.then;
+//             } catch (err) {
+//                 rejected(err);
+//             }
+//             if (typeof then === 'function') {
+//                 try {
+//                     then.call(x, y => {
+//                         if (call) return;
+//                         call = true;
+//                         resolvePromise(promise, y, resolve, rejected);
+//                     }, r => {
+//                         if (call) return;
+//                         call = true;
+//                         rejected(r);
+//                     });
+//                 } catch (err) {
+//                     if (call) return;
+//                     rejected(err);
+//                 }
+//             } else {
+//                 resolve(x);
+//             }
+//         } else {
+//             resolve(x);
+//         }
+//     }
+//
+//     return Promise;
+// })();
+// setTimeout(() => {
+//     console.log('timeout~');
+// }, 0);
+// const promise = new PromiseCall((resolve, rejected) => {
+//     setTimeout(() => {
+//         resolve({
+//             then(resolve) {
+//                 resolve({
+//                     then(resolve) {
+//                         resolve('promise call~~');
+//                     }
+//                 })
+//             }
+//         });
+//     }, 0);
+// });
+// promise.then(val => {
+//     console.log('first', val);
+//     return `next ${val}`;
+// }).then(nextVal => {
+//     console.log('next', nextVal);
+//     throw new TypeError(`error ${nextVal}`);
+// }).then(endVal => {
+//
+// }, reason => {
+//     console.error(reason);
+// });
+// console.log('callback~');
+
+// complete Promise
+const PromiseCall = (() => {
+    class Promise {
+        constructor(fn) {
+        }
+    }
+    return Promise;
+})();
+
+// generator Thunk
+
+// promise Generator Thunk
