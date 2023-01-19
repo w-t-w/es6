@@ -3044,3 +3044,470 @@
 // }).catch(reason => {
 //     console.error('reason', reason);
 // });
+
+// compose
+// const compose = (...args) => x => args.reduceRight((a, b) => b(a), x);
+// const add = x => x + x;
+// const multiply = x => x * x;
+// const result = compose(multiply, add)(20);
+// console.log('result:', result);
+
+// pipe
+// const pipe = (...args) => x => args.reduce((a, b) => b(a), x);
+// const add = x => x + x;
+// const multiply = x => x * x;
+// const result = pipe(add, multiply)(30);
+// console.log('result', result);
+
+// flat
+// const flat = (arr = [], initial = []) => arr.reduce((a, b) => Array.isArray(b) ? flat(b, a) : a.concat(b), initial);
+// const arr = [1, [2, 3], [4, 5, [6, 7]], [8, 9, [10, 11, [12, 13]]]];
+// const result = flat(arr);
+// console.log('result', result);
+
+// layer flat
+// const flat = (arr = [], layer = 1, initial = []) => arr.reduce((a, b) => (Array.isArray(b) && layer > 1) ? flat(b, layer - 1, a) : a.concat(b), initial);
+// const arr = [1, [2, 3], [4, 5, [6, 7]], [8, 9, [10, 11, [12, 13]]], [14, 15, [16, 17, [18, 19, [20, 21]]]], [22, 23, [24, 25, [26, 27, [28, 29, [30, 31, [32, 33]]]]]], [34, 35, [36, 37, [38, 39, [40, 41, [42, 43, [44, 45, [46, 47, [48, 49, [50]]]]]]]]]];
+// let result = flat(arr);
+// console.log('result', result);
+// result = flat(arr, 2);
+// console.log('result', result);
+// result = flat(arr, 3);
+// console.log('result', result);
+// result = flat(arr, 4);
+// console.log('result', result);
+// result = flat(arr, 5);
+// console.log('result', result);
+// result = flat(arr, 6);
+// console.log('result', result);
+// result = flat(arr, 7);
+// console.log('result', result);
+// result = flat(arr, 8);
+// console.log('result', result);
+// result = flat(arr, 9);
+// console.log('result', result);
+
+// fibonacci
+// const fibonacci = n => (n === 0 || n === 1) ? n : fibonacci(n - 1) + fibonacci(n - 2);
+// let result = fibonacci(40);
+// console.log('result', result);
+// result = fibonacci(40);
+// console.log('result', result);
+
+// tailCall fibonacci
+// const fibonacci = (n = 0, n1 = 0, n2 = 1) => n === 0 ? n1 : fibonacci(n - 1, n2, n1 + n2);
+// let result = fibonacci(40);
+// console.log('result', result);
+// result = fibonacci(40);
+// console.log('result', result);
+
+// cache fibonacci
+// const fibonacci = n => (n === 0 || n === 1) ? n : fibonacci(n - 1) + fibonacci(n - 2);
+// const memo = (fn, hasher) => {
+//     function memoFunc(...args) {
+//         const cache = memoFunc.cache;
+//         const hashKey = hasher ? hasher.apply(this, args) : args[0];
+//         if (!cache[hashKey]) {
+//             cache[hashKey] = fn.apply(this, args);
+//         }
+//         return cache[hashKey];
+//     }
+//
+//     memoFunc.cache = {};
+//     return memoFunc;
+// };
+// const memoFibonacci = memo(fibonacci);
+// let result = memoFibonacci(40);
+// console.log('result', result);
+// result = memoFibonacci(40);
+// console.log('result', result);
+
+// curry
+// const curry = fn => function cacheCurry(...args) {
+//     return args.length >= fn.length ? fn.apply(this, args) : (...innerArgs) => cacheCurry.apply(this, args.concat(innerArgs));
+// };
+// const curried = (a, b, c, d) => a + b + c + d;
+// const curryFunc = curry(curried);
+// let result = curryFunc(2, 4, 6, 8);
+// console.log('result', result);
+// result = curryFunc(2)(6)(10)(14);
+// console.log('result', result);
+// result = curryFunc(2, 5)(8, 11);
+// console.log('result', result);
+// result = curryFunc(3)(7, 11, 15);
+// console.log('result', result);
+// result = curryFunc(3, 8)(13)(18);
+// console.log('result', result);
+// result = curryFunc(4, 6, 8)(10);
+// console.log('result', result);
+
+// debounce
+// const debounce = function (fn, timeout) {
+//     let timer = null;
+//     return (...args) => {
+//         if (timer) {
+//             clearTimeout(timer);
+//             timer = null;
+//         }
+//         timer = setTimeout(() => {
+//             fn.apply(this, args);
+//         }, timeout);
+//     };
+// };
+
+// throttle
+// const throttle = function (fn, timeout) {
+//     let timer = null,
+//         firstRequest = true;
+//     return (...args) => {
+//         if (timer) {
+//             return false;
+//         }
+//         if (firstRequest) {
+//             fn.apply(this, args);
+//             firstRequest = false;
+//             return true;
+//         }
+//         timer = setTimeout(() => {
+//             fn.apply(this, args);
+//             clearTimeout(timer);
+//             timer = null;
+//         }, timeout);
+//     };
+// };
+
+// factorial
+// const factorial = (n = 1) => n === 1 ? n : n * factorial(n - 1);
+// const result = factorial(10);
+// console.log('result', result);
+
+// tailCall factorial
+// const factorial = (n = 1, p = 1) => n === 1 ? n * p : factorial(n - 1, n * p);
+// const result = factorial(5);
+// console.log('result', result);
+
+// shallow copy
+// const shallowCopy = o => {
+//     const _o = Array.isArray(o) ? [] : {};
+//     for (const key of Reflect.ownKeys(o)) {
+//         if (o.hasOwnProperty(key)) {
+//             _o[key] = o[key];
+//         }
+//     }
+//     return _o;
+// };
+// const love = Symbol.for('love');
+// const me = {
+//     name: 'wtw',
+//     age: 28,
+//     gender: true,
+//     introduce() {
+//     },
+//     hobby: {
+//         sports: {
+//             ball: ['basketball', 'football']
+//         }
+//     },
+//     [love]: 'abby moon'
+// };
+// const me_ano = shallowCopy(me);
+// console.log(me, me_ano);
+// me.name = 'Gary';
+// me.age = 29;
+// me.hobby.sports.ball = ['volleyball', 'tennis'];
+// console.log(me, me_ano);
+
+// deep clone
+// const deepClone = (o) => {
+//     const _o = Array.isArray(o) ? [] : {};
+//     for (const key of Reflect.ownKeys(o)) {
+//         if (o.hasOwnProperty(key)) {
+//             if (o[key] && typeof o[key] === 'object') {
+//                 _o[key] = deepClone(o[key]);
+//             } else {
+//                 _o[key] = o[key];
+//             }
+//         }
+//     }
+//     return _o;
+// };
+// const love = Symbol.for('love');
+// const me = {
+//     name: 'wtw',
+//     age: 28,
+//     gender: true,
+//     introduce() {
+//     },
+//     hobby: {
+//         sports: {
+//             ball: ['basketball', 'football']
+//         }
+//     },
+//     [love]: 'abby moon'
+// };
+// me.own = me;
+// const me_ano = deepClone(me);
+// console.log(me, me_ano);
+// me.name = 'Gary';
+// me.age = 29;
+// me.hobby.sports.ball = ['volleyball', 'tennis'];
+// console.log(me, me_ano);
+
+// deep clone loop
+// const deepClone = o => {
+//     const source = new WeakMap();
+//     const deepCloneFunc = function (o) {
+//         const _o = Array.isArray(o) ? [] : {};
+//         const existObj = source.get(o);
+//         if (existObj) return existObj;
+//         source.set(o, o);
+//         for (const key of Reflect.ownKeys(o)) {
+//             if (o.hasOwnProperty(key)) {
+//                 if (o[key] && typeof o[key] === 'object') {
+//                     _o[key] = deepCloneFunc(o[key]);
+//                 } else {
+//                     _o[key] = o[key];
+//                 }
+//             }
+//         }
+//         return _o;
+//     };
+//     return deepCloneFunc(o);
+// };
+// const love = Symbol.for('love');
+// const me = {
+//     name: 'wtw',
+//     age: 28,
+//     gender: true,
+//     introduce() {
+//     },
+//     hobby: {
+//         sports: {
+//             ball: ['basketball', 'football']
+//         }
+//     },
+//     [love]: 'abby moon'
+// };
+// me.own = me;
+// const me_ano = deepClone(me);
+// console.log(me, me_ano);
+// me.name = 'Gary';
+// me.age = 29;
+// me.hobby.sports.ball = ['volleyball', 'tennis'];
+// console.log(me, me_ano);
+
+// pick
+// const pick = (o, ...property) => {
+//     const source = new WeakMap();
+//     const deepClone = o => {
+//         const _o = Array.isArray(o) ? [] : {};
+//         const existObj = source.get(o);
+//         if (existObj) return existObj;
+//         source.set(o, o);
+//         for (const key of Reflect.ownKeys(o)) {
+//             if (o.hasOwnProperty(key) && property.includes(key)) {
+//                 if (o[key] && typeof o[key] === 'object') {
+//                     _o[key] = deepClone(o[key]);
+//                 } else {
+//                     _o[key] = o[key];
+//                 }
+//             }
+//         }
+//         return _o;
+//     };
+//     return deepClone(o);
+// };
+// const love = Symbol.for('love');
+// const me = {
+//     name: 'wtw',
+//     age: 28,
+//     gender: true,
+//     introduce() {
+//     },
+//     hobby: {
+//         sports: {
+//             ball: 'basketball'
+//         }
+//     },
+//     [love]: 'abby moon'
+// };
+// me.own = me;
+// const me_ano = pick(me, 'name', 'age', 'hobby', 'sports', 'ball', 'own', love);
+// console.log(me, me_ano);
+// me.name = 'Gary';
+// me.age = 29;
+// me.hobby.sports.ball = 'football';
+// console.log(me, me_ano);
+
+// new
+// const newCall = (fn, ...args) => {
+//     const obj = {};
+//     const result = fn.apply(obj, args);
+//     const isObject = typeof result === 'object' && result !== null;
+//     const isFunction = typeof result === 'function';
+//     if (isObject || isFunction) {
+//         return result;
+//     }
+//     // obj.__proto__ = fn.prototype;
+//     Object.setPrototypeOf(obj, fn.prototype);
+//     return obj;
+// };
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old`);
+// };
+// const wtw = newCall(Person, 'wtw', 28);
+// console.log(wtw);
+// wtw.introduce();
+
+// instanceof
+// const instanceofCall = (target, targetClass) => {
+//     if (!target || !targetClass || !target.__proto__ || !targetClass.prototype) {
+//         throw new TypeError('');
+//     }
+//     let current = target.__proto__;
+//     while (current) {
+//         if (current === targetClass.prototype) {
+//             return true;
+//         }
+//         current = current.__proto__;
+//     }
+//     return false;
+// };
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old~`);
+// };
+// const wtw = new Person('wtw', 27);
+// console.log(wtw);
+// wtw.introduce();
+// console.log(instanceofCall(wtw, Person));
+// console.log(instanceofCall(wtw, Object));
+// console.log(instanceofCall({}, Object));
+// console.log(instanceofCall({}, Person));
+
+// apply
+// if (typeof Function.prototype.applyBind === 'undefined') {
+//     Function.prototype.applyBind = function (context, args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('apply 方法必须被一个函数调用!');
+//         }
+//         const symbol = Symbol.for('apply');
+//         context[symbol] = this;
+//         const result = context[symbol](...args);
+//         delete context[symbol];
+//         return result;
+//     };
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old~`);
+// };
+// const wtw = {name: 'wtw', age: 28};
+// Person.applyBind(wtw, ['gary', 29]);
+// console.log(wtw);
+
+// call
+// if (typeof Function.prototype.callBind === 'undefined') {
+//     Function.prototype.callBind = function (context, ...args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('call 方法必须被一个函数调用!');
+//         }
+//         const symbol = Symbol.for('call');
+//         context[symbol] = this;
+//         const result = context[symbol](...args);
+//         delete context[symbol];
+//         return result;
+//     };
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old~`);
+// };
+// const wtw = {name: 'wtw', age: 26};
+// Person.callBind(wtw, 'gary', 22);
+// console.log(wtw);
+
+// bind
+// if (typeof Function.prototype.bindCall === 'undefined') {
+//     Function.prototype.bindCall = function (context, ...args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('bind 方法必须被一个函数调用');
+//         }
+//         const self = this;
+//         function F() {
+//         }
+//         const fBind = function (...innerArgs) {
+//             return self.apply(this instanceof fBind ? this : context, args.concat(innerArgs));
+//         };
+//         Object.setPrototypeOf(F.prototype, this.prototype);
+//         Object.setPrototypeOf(fBind.prototype, F.prototype);
+//         return fBind;
+//     };
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old~`);
+// };
+// const wtw = {name: 'wtw', age: 29};
+// const whiteThanWood = {name: 'white_than_wood', age: 20};
+// const gary = Person.bindCall(wtw, 'gary');
+// gary(26);
+// console.log(wtw);
+// const white_than_wood = new gary(22);
+// console.log(white_than_wood, wtw);
+// gary.call(whiteThanWood, 28);
+// console.log(whiteThanWood, wtw);
+
+// softBind
+// if (typeof Function.prototype.softBind === 'undefined') {
+//     Function.prototype.softBind = function (context, ...args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('softBind 方法必须被一个函数调用');
+//         }
+//         const self = this;
+//         function F() {
+//         }
+//         const fBind = function (...innerArgs) {
+//             return self.apply((!this || this === window) ? context : this, args.concat(innerArgs));
+//         };
+//         Object.setPrototypeOf(F.prototype, this.prototype);
+//         Object.setPrototypeOf(fBind.prototype, F.prototype);
+//         return fBind;
+//     };
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old~`);
+// };
+// const wtw = {name: 'wtw', age: 29};
+// const whiteThanWood = {name: 'white_than_wood', age: 20};
+// const gary = Person.softBind(wtw);
+// gary('gary', 26);
+// console.log(wtw);
+// const white_than_wood = new gary('white_than_wood', 22);
+// console.log(white_than_wood, wtw);
+// gary.call(whiteThanWood, 'whiteThanWood', 28);
+// console.log(whiteThanWood, wtw);
+
+// Promise
+
+// complete Promise
