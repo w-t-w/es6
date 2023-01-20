@@ -4136,7 +4136,7 @@
 // const result = isUTFSixteenCharacter(char);
 // console.log('result', result);
 
-// es5 flags method
+// flags method imitate
 // const getFlags = regExp => {
 //     const regExpStr = String(regExp);
 //     return regExpStr.substring(regExpStr.lastIndexOf('/') + 1);
@@ -4144,5 +4144,45 @@
 // const regExp = /\u{20bb7}/uigm;
 // const result = getFlags(regExp);
 // console.log('result', result);
+
+// class imitate
+// let classImitate = (() => {
+//     const classImitate = function (...args) {
+//         if (new.target === undefined) {
+//             throw new TypeError('此类只可使用 new 构造调用!');
+//         }
+//         this.args = args;
+//     };
+//     Object.defineProperty(classImitate.prototype, 'method', {
+//         value() {
+//             if (new.target !== undefined) {
+//                 throw new TypeError('此方法不可使用 new 构造调用');
+//             }
+//             console.log(`存在这么几个参数:`, ...this.args);
+//         },
+//         enumerable: false
+//     });
+//     Object.defineProperty(classImitate.prototype, 'getter', {
+//         get() {
+//             return this.args;
+//         },
+//         enumerable: false
+//     });
+//     return classImitate;
+// })();
+// classImitate('wtw', 29);
+// const wtw = new classImitate('wtw', 29);
+// const method = new wtw.method();
+// wtw.method();
+// console.log(wtw.getter);
+
+// create 1-100 array
+// function createArray(length) {
+//     return Array.from(Array.apply(null, {length}), function map(item, index) {
+//         return index + 1;
+//     });
+// }
+// const arr = createArray(100);
+// console.log('array:', arr);
 
 //
