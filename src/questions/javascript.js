@@ -4095,3 +4095,25 @@
 // });
 
 // promise timeout
+// const timerPromise = (promise, timeout) => {
+//     return Promise.race([promise, new Promise((resolve, reject) => {
+//         setTimeout(() => {
+//             reject({
+//                 status: 'rejected',
+//                 reason: '请求超时!'
+//             });
+//         }, timeout);
+//     })]);
+// };
+// timerPromise(new Promise(resolve => {
+//     setTimeout(() => {
+//         resolve({
+//             status: 'fulfilled',
+//             value: '请求成功!'
+//         });
+//     }, 3100);
+// }), 3000).then(value => {
+//     console.log('value', value);
+// }).catch(reason => {
+//     console.error('reason', reason);
+// });
