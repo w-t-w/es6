@@ -4045,7 +4045,53 @@
 // }, 0);
 
 // generator Thunk
+// const fs = require('fs');
+// const path = require('path');
+// const Thunk = fn => (...args) => callback => fn(...args, callback);
+// const readFile = Thunk(fs.readFile);
+// function run(taskRun) {
+//     const task = taskRun();
+//     function next(err, data) {
+//         if (err) task.throw(err);
+//         const {value, done} = task.next(data);
+//         if (done) return true;
+//         value(next);
+//     }
+//     next();
+// }
+// run(function* () {
+//     const first = yield readFile(path.resolve(process.cwd(), './src/questions/assets/1.txt'), 'utf-8');
+//     console.log('1.txt:', first);
+//     const second = yield readFile(path.resolve(process.cwd(), './src/questions/assets/2.txt'), 'utf-8');
+//     console.log('2.txt', second);
+//     return second;
+// });
 
 // promise Generator Thunk
+// const fs = require('fs');
+// const path = require('path');
+// const Thunk = fn => (...args) => callback => fn(...args, callback);
+// const readFile = Thunk(fs.readFile);
+// function run(taskRun) {
+//     return new Promise((resolve, reject) => {
+//         const task = taskRun();
+//         function next(err, data) {
+//             if (err) return reject(task.throw(err));
+//             const {value, done} = task.next(data);
+//             if (done) return resolve(value);
+//             value(next);
+//         }
+//         next();
+//     });
+// }
+// run(function* () {
+//     const first = yield readFile(path.resolve(process.cwd(), './src/questions/assets/1.txt'), 'utf-8');
+//     console.log('1.txt', first);
+//     const second = yield readFile(path.resolve(process.cwd(), './src/questions/assets/2.txt'), 'utf-8');
+//     console.log('2.txt', second);
+//     return second;
+// }).then(value => {
+//     console.log('end', value);
+// });
 
 // promise timeout
