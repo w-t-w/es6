@@ -4117,3 +4117,32 @@
 // }).catch(reason => {
 //     console.error('reason', reason);
 // });
+
+// get character's length
+// const getLength = str => str.match(/[\s\S]/ug).length;
+// const str = 'ab吉祥𠮷𠮷cdefg';
+// const result = getLength(str);
+// console.log('result', result);
+// const str = 'abcd';
+// const result = getLength(str);
+// console.log('result', result);
+
+// judge utf-16 character
+// const isUTFSixteenCharacter = (char) => {
+//     return char.codePointAt(0) > 0xFFFF;
+// };
+// // const char = '𠮷';
+// const char = '吉';
+// const result = isUTFSixteenCharacter(char);
+// console.log('result', result);
+
+// es5 flags method
+// const getFlags = regExp => {
+//     const regExpStr = String(regExp);
+//     return regExpStr.substring(regExpStr.lastIndexOf('/') + 1);
+// };
+// const regExp = /\u{20bb7}/uigm;
+// const result = getFlags(regExp);
+// console.log('result', result);
+
+//
