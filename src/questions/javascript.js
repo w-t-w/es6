@@ -4185,4 +4185,42 @@
 // const arr = createArray(100);
 // console.log('array:', arr);
 
-//
+// class with array properties
+// class MyArray extends Array {
+//     constructor(...props) {
+//         super(...props);
+//         return new Proxy(this, {
+//             set(target, key, value) {
+//                 const length = Reflect.get(target, 'length');
+//                 if (target.isArrayIndex(key)) {
+//                     if (key >= length) {
+//                         Reflect.set(target, 'length', length + 1);
+//                     }
+//                 } else {
+//                     if (key < length) {
+//                         for (let i = length - 1; i >= key; i--) {
+//                             Reflect.deleteProperty(target, i);
+//                         }
+//                     }
+//                 }
+//                 return Reflect.set(target, key, value);
+//             }
+//         });
+//     }
+//     isArrayIndex(index) {
+//         const numberRic = this.toUnit32(index);
+//         return String(numberRic) === index && numberRic < Math.pow(2, 32) - 1;
+//     }
+//     toUnit32(key) {
+//         return Math.floor(Math.abs(Number(key))) < Math.pow(2, 32);
+//     }
+// }
+// const arr = new MyArray(34, 56, 78, 89, 90);
+// console.log(arr.length);
+// console.log(arr);
+// arr[8] = 144;
+// console.log(arr.length);
+// console.log(arr);
+// arr.length = 2;
+// console.log(arr.length);
+// console.log(arr);
