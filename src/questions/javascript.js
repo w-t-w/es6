@@ -133,7 +133,7 @@
 // };
 
 // shallow Copy
-// const shallowCopy = (o) => {
+// const shallowCopy = o => {
 //     const _o = Array.isArray(o) ? [] : {};
 //     for (const key of Reflect.ownKeys(o)) {
 //         if (o.hasOwnProperty(key)) {
@@ -161,3 +161,186 @@
 // wtw.hobby.sports = ['football', 'basketball', 'tennis'];
 // console.log('me', me);
 // console.log('wtw', wtw);
+
+// deep Clone
+// const deepClone = o => {
+//     const _o = Array.isArray(o) ? [] : {};
+//     for (const key of Reflect.ownKeys(o)) {
+//         if (o.hasOwnProperty(key)) {
+//             if (o[key] && typeof o[key] === 'object') {
+//                 _o[key] = deepClone(o[key]);
+//             } else {
+//                 _o[key] = o[key];
+//             }
+//         }
+//     }
+//     return _o;
+// }
+// const secrets = Symbol.for('secrets');
+// const wtw = {
+//     name: 'wtw',
+//     age: 29,
+//     gender: true,
+//     hobby: {sports: ['football', 'basketball']},
+//     introduce() {
+//     },
+//     [secrets]: 'wangJinJin',
+//     dislike: undefined
+// };
+// wtw.me = wtw;
+// const me = deepClone(wtw);
+// me.name = 'gary';
+// console.log('me', me);
+// console.log('wtw', wtw);
+// console.log('---------');
+// wtw.hobby.sports = ['football', 'basketball', 'tennis'];
+// console.log('me', me);
+// console.log('wtw', wtw);
+
+// deep Clone Loop
+// const deepClone = o => {
+//     const source = new WeakMap();
+//     function deepCloneInner(o) {
+//         const _o = Array.isArray(o) ? [] : {};
+//         const existObj = source.get(o);
+//         if (existObj) return existObj;
+//         source.set(o, o);
+//         for (const key of Reflect.ownKeys(o)) {
+//             if (o.hasOwnProperty(key)) {
+//                 if (o[key] && typeof o[key] === 'object') {
+//                     _o[key] = deepCloneInner(o[key]);
+//                 } else {
+//                     _o[key] = o[key];
+//                 }
+//             }
+//         }
+//         return _o;
+//     }
+//     return deepCloneInner(o);
+// };
+// const secrets = Symbol.for('secrets');
+// const wtw = {
+//     name: 'wtw',
+//     age: 29,
+//     gender: true,
+//     hobby: {sports: ['football', 'basketball']},
+//     introduce() {
+//     },
+//     [secrets]: 'wangJinJin',
+//     dislike: undefined
+// };
+// wtw.me = wtw;
+// const me = deepClone(wtw);
+// me.name = 'gary';
+// console.log('me', me);
+// console.log('wtw', wtw);
+// console.log('---------');
+// wtw.hobby.sports = ['football', 'basketball', 'tennis'];
+// console.log('me', me);
+// console.log('wtw', wtw);
+
+// pick
+// const pick = (o, ...property) => {
+//     const source = new WeakMap();
+//     function deepClone(o) {
+//         const _o = Array.isArray(o) ? [] : {};
+//         const existObj = source.get(o);
+//         if (existObj) return existObj;
+//         source.set(o, o);
+//         for (const key of Reflect.ownKeys(o)) {
+//             if (o.hasOwnProperty(key) && property.includes(key)) {
+//                 if (o[key] && typeof o[key] === 'object') {
+//                     _o[key] = deepClone(o[key]);
+//                 } else {
+//                     _o[key] = o[key];
+//                 }
+//             }
+//         }
+//         return _o;
+//     }
+//     return deepClone(o);
+// };
+// const secrets = Symbol.for('secrets');
+// const wtw = {
+//     name: 'wtw',
+//     age: 29,
+//     gender: true,
+//     hobby: {sports: 'basketball'},
+//     introduce() {
+//     },
+//     [secrets]: 'wangJinJin',
+//     dislike: undefined
+// };
+// wtw.me = wtw;
+// const me = pick(wtw, 'name', 'hobby', 'sports', 'age', 'introduce', secrets);
+// me.name = 'gary';
+// console.log('me', me);
+// console.log('wtw', wtw);
+// console.log('---------');
+// wtw.hobby.sports = 'tennis';
+// console.log('me', me);
+// console.log('wtw', wtw);
+
+// new
+// function newCall(fn, ...args) {
+//     if (typeof fn !== 'function') {
+//         throw new TypeError('The first argument to a function must be a method');
+//     }
+//     const o = {};
+//     const result = fn.apply(o, args);
+//     const isObject = typeof result === 'object' && result !== null;
+//     const isFunction = typeof result === 'function';
+//     if (isObject || isFunction) {
+//         return result;
+//     }
+//     // o.__proto__ = fn.prototype;
+//     Object.setPrototypeOf(o, fn.prototype);
+//     return o;
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old~`);
+// };
+// const wtw = newCall(Person, 'wtw', 29);
+// console.log(wtw);
+// wtw.introduce();
+
+// instanceof
+// function instanceofCall(targetObject, targetClass) {
+//     if (!targetObject || !targetClass || !targetObject.__proto__ || !targetClass.prototype) {
+//         return false;
+//     }
+//     let current = targetObject.__proto__;
+//     while (current) {
+//         if (current === targetClass.prototype) {
+//             return true;
+//         }
+//         current = current.__proto__;
+//     }
+//     return false;
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old~`);
+// };
+// const wtw = new Person('wtw', 29);
+// console.log(instanceofCall(wtw, Person));
+// console.log(instanceofCall(wtw, Object));
+// console.log(instanceofCall({}, Object));
+// console.log(instanceofCall({}, Person));
+
+// unit
+
+// call
+
+// apply
+
+// bind
+
+// softBind
