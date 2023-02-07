@@ -336,6 +336,31 @@
 // console.log(instanceofCall({}, Person));
 
 // unit
+// const unit = fn => {
+//     try {
+//         fn();
+//     } catch (err) {
+//         console.error('error:', err);
+//     }
+// };
+// const test = (desc, result) => {
+//     return {
+//         expected(expectedResult) {
+//             if (result === expectedResult) {
+//                 console.log(`${desc} is PASSED!`);
+//             } else {
+//                 console.error(`${desc} is FAILED:the expected result is ${expectedResult},but get ${result}!`);
+//             }
+//         }
+//     };
+// };
+// const add = (a, b) => a + b;
+// const multiply = (a, b) => a * b;
+// unit(() => {
+//     test('3 + 4', add(3, 4)).expected(7);
+//     test('6 * 9', multiply(6, 9)).expected(54);
+//     test('9 * 9', multiply(8, 9)).expected(81);
+// });
 
 // call
 
