@@ -520,12 +520,14 @@
 //             this.onRejectedCallbacks = [];
 //             const resolve = value => {
 //                 if (this.status === PENDING) {
+//                     this.status = FULFILLED;
 //                     this.value = value;
 //                     this.onFulfilledCallbacks.forEach(callback => callback());
 //                 }
 //             };
 //             const reject = reason => {
 //                 if (this.status === PENDING) {
+//                     this.status = REJECTED;
 //                     this.reason = reason;
 //                     this.onRejectedCallbacks.forEach(callback => callback());
 //                 }
@@ -562,7 +564,7 @@
 //                                     then = value.then;
 //                                     if (typeof then === 'function') {
 //                                         then.call(this, y => {
-//                                             thenable(y);
+//                                             thenable.call(this, y);
 //                                         }, r => {
 //                                             reject(r);
 //                                         });
@@ -606,7 +608,7 @@
 //                                         then = value.then;
 //                                         if (typeof then === 'function') {
 //                                             then.call(this, y => {
-//                                                 thenable(y);
+//                                                 thenable.call(this, y);
 //                                             }, r => {
 //                                                 reject(r);
 //                                             });
@@ -695,7 +697,7 @@
 // });
 // promise.then(val => {
 //     console.log(val);
-//     return `${val}wtw`
+//     return `${val}wtw`;
 // }).then(content => {
 //     console.log(content);
 //     return {
@@ -703,11 +705,12 @@
 //             resolve(`${content},29 year's old~`);
 //         }
 //     };
+// }).then(end => {
+//     console.log(end);
+//     return new PromiseCall(resolve => resolve(`${end},my wife is wangJinJin`));
 // }).then(result => {
 //     console.log(result);
 //     throw new TypeError(`${result},I love computer`);
 // }).then(null, reason => {
 //     console.error(reason);
 // });
-
-// complete Promise
