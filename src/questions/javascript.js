@@ -363,9 +363,351 @@
 // });
 
 // call
+// if (Function.prototype.callBind === undefined) {
+//     Function.prototype.callBind = function (context, ...args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('The caller to this method must be a function');
+//         }
+//         const symbol = Symbol.for('call');
+//         context[symbol] = this;
+//         const result = context[symbol](...args);
+//         delete context[symbol];
+//         return result;
+//     };
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name},${this.age} year's old~`);
+// };
+// const wtw = {
+//     name: 'wtw',
+//     age: 29
+// };
+// Person.callBind(wtw, 'gary', 30);
+// console.log(wtw);
 
 // apply
+// if (Function.prototype.applyBind === undefined) {
+//     Function.prototype.applyBind = function (context, args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('The caller to this method must be a function');
+//         }
+//         const symbol = Symbol.for('apply');
+//         context[symbol] = this;
+//         const result = context[symbol](...args);
+//         delete context[symbol];
+//         return result;
+//     };
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name}, ${this.age} year's old~`);
+// };
+// const gary = {
+//     name: 'gary',
+//     age: 22
+// };
+// Person.applyBind(gary, ['white_than_wood', 26]);
+// console.log(gary);
 
 // bind
+// if (Function.prototype.bindMock === undefined) {
+//     Function.prototype.bindMock = function (context, ...args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('The caller to this method must be a function');
+//         }
+//         const self = this;
+//         function F() {
+//         }
+//         const fBind = function (...innerArgs) {
+//             return self.apply(this instanceof fBind ? this : context, args.concat(innerArgs));
+//         }
+//         Object.setPrototypeOf(F.prototype, this.prototype);
+//         Object.setPrototypeOf(fBind.prototype, F.prototype);
+//         return fBind;
+//     }
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name},${this.age} year's old~`);
+// };
+// const wtw = {
+//     name: 'whiteThanWood',
+//     age: 29
+// };
+// const lily = {
+//     name: 'lily',
+//     age: 28
+// };
+// const white_than_wood = Person.bindMock(wtw, 'white_than_wood');
+// white_than_wood(38);
+// console.log(wtw);
+// const wtwBind = Person.bindMock(wtw, 'wtw');
+// const wtwObj = new wtwBind(40);
+// console.log(wtw);
+// console.log(wtwObj);
+// wtwObj.introduce();
+// const w_than_w = Person.bindMock(wtw, 'w_than_w');
+// w_than_w.call(lily, 25);
+// console.log(wtw);
+// console.log(lily);
 
 // softBind
+// if (Function.prototype.softBind === undefined) {
+//     Function.prototype.softBind = function (context, ...args) {
+//         if (typeof this !== 'function') {
+//             throw new TypeError('The caller to this method must be a function');
+//         }
+//         const self = this;
+//         function F() {
+//         }
+//         const fBind = function (...innerArgs) {
+//             return self.apply((!this || this === window) ? context : this, args.concat(innerArgs));
+//         };
+//         Object.setPrototypeOf(F.prototype, this.prototype);
+//         Object.setPrototypeOf(fBind.prototype, F.prototype);
+//         return fBind;
+//     }
+// }
+// function Person(name, age) {
+//     this.name = name;
+//     this.age = age;
+// }
+// Person.prototype.introduce = function () {
+//     console.log(`I'm ${this.name},${this.age} year's old~`);
+// };
+// const wtw = {
+//     name: 'whiteThanWood',
+//     age: 29
+// };
+// const lily = {
+//     name: 'lily',
+//     age: 28
+// };
+// const white_than_wood = Person.softBind(wtw, 'white_than_wood');
+// white_than_wood(38);
+// console.log(wtw);
+// const wtwBind = Person.softBind(wtw, 'wtw');
+// const wtwObj = new wtwBind(40);
+// console.log(wtw);
+// console.log(wtwObj);
+// wtwObj.introduce();
+// const w_than_w = Person.softBind(wtw, 'w_than_w');
+// w_than_w.call(lily, 25);
+// console.log(wtw);
+// console.log(lily);
+
+// Promise
+// const PromiseCall = (() => {
+//     const PENDING = 'PENDING';
+//     const FULFILLED = 'FULFILLED';
+//     const REJECTED = 'REJECTED';
+//     class Promise {
+//         constructor(fn) {
+//             this.status = PENDING;
+//             this.value = null;
+//             this.reason = null;
+//             this.onFulfilledCallbacks = [];
+//             this.onRejectedCallbacks = [];
+//             const resolve = value => {
+//                 if (this.status === PENDING) {
+//                     this.value = value;
+//                     this.onFulfilledCallbacks.forEach(callback => callback());
+//                 }
+//             };
+//             const reject = reason => {
+//                 if (this.status === PENDING) {
+//                     this.reason = reason;
+//                     this.onRejectedCallbacks.forEach(callback => callback());
+//                 }
+//             };
+//             try {
+//                 fn(resolve, reject);
+//             } catch (err) {
+//                 reject(err);
+//             }
+//         }
+//         then(onFulfilled, onRejected) {
+//             if (typeof onFulfilled !== 'function') {
+//                 onFulfilled = value => value;
+//             }
+//             if (typeof onRejected !== 'function') {
+//                 onRejected = reason => {
+//                     if (reason instanceof Error) {
+//                         throw reason;
+//                     } else {
+//                         throw new Error(reason);
+//                     }
+//                 }
+//             }
+//             let promise,
+//                 then;
+//             if (this.status === FULFILLED) {
+//                 promise = new Promise((resolve, reject) => {
+//                     setTimeout(() => {
+//                         try {
+//                             if (typeof onFulfilled !== 'function') {
+//                                 resolve(this.value);
+//                             } else {
+//                                 (function thenable(value) {
+//                                     then = value.then;
+//                                     if (typeof then === 'function') {
+//                                         then.call(this, y => {
+//                                             thenable(y);
+//                                         }, r => {
+//                                             reject(r);
+//                                         });
+//                                     } else {
+//                                         const x = onFulfilled(value);
+//                                         resolvePromise(promise, x, resolve, reject);
+//                                     }
+//                                 }.bind(this))(this.value);
+//                             }
+//                         } catch (err) {
+//                             reject(err);
+//                         }
+//                     }, 0);
+//                 });
+//             }
+//             if (this.status === REJECTED) {
+//                 promise = new Promise((resolve, reject) => {
+//                     setTimeout(() => {
+//                         try {
+//                             if (typeof onRejected !== 'function') {
+//                                 reject(this.reason);
+//                             } else {
+//                                 const x = onRejected(this.reason);
+//                                 resolvePromise(promise, x, resolve, reject);
+//                             }
+//                         } catch (err) {
+//                             reject(err);
+//                         }
+//                     }, 0);
+//                 });
+//             }
+//             if (this.status === PENDING) {
+//                 promise = new Promise((resolve, reject) => {
+//                     this.onFulfilledCallbacks.push(() => {
+//                         setTimeout(() => {
+//                             try {
+//                                 if (typeof onFulfilled !== 'function') {
+//                                     resolve(this.value);
+//                                 } else {
+//                                     (function thenable(value) {
+//                                         then = value.then;
+//                                         if (typeof then === 'function') {
+//                                             then.call(this, y => {
+//                                                 thenable(y);
+//                                             }, r => {
+//                                                 reject(r);
+//                                             });
+//                                         } else {
+//                                             const x = onFulfilled(value);
+//                                             resolvePromise(promise, x, resolve, reject)
+//                                         }
+//                                     }.bind(this))(this.value);
+//                                 }
+//                             } catch (err) {
+//                                 reject(err);
+//                             }
+//                         }, 0);
+//                     });
+//                     this.onRejectedCallbacks.push(() => {
+//                         setTimeout(() => {
+//                             try {
+//                                 if (typeof onRejected !== 'function') {
+//                                     reject(this.reason);
+//                                 } else {
+//                                     const x = onRejected(this.reason);
+//                                     resolvePromise(promise, x, resolve, reject);
+//                                 }
+//                             } catch (err) {
+//                                 reject(err);
+//                             }
+//                         }, 0);
+//                     });
+//                 });
+//             }
+//             return promise;
+//         }
+//     }
+//     function resolvePromise(promise, x, resolve, reject) {
+//         if (promise === x) return reject(new TypeError('The promise and the return value are the same'));
+//         if (x instanceof Promise) {
+//             x.then(y => {
+//                 resolvePromise(promise, y, resolve, reject);
+//             });
+//         }
+//         if (typeof x === 'object' || typeof x === 'function') {
+//             if (x === null) return reject(x);
+//             let then,
+//                 call = false;
+//             try {
+//                 then = x.then;
+//             } catch (err) {
+//                 reject(err);
+//             }
+//             if (typeof then === 'function') {
+//                 try {
+//                     then.call(x, y => {
+//                         if (call) return;
+//                         call = true;
+//                         resolvePromise(promise, y, resolve, reject);
+//                     }, r => {
+//                         if (call) return;
+//                         call = true;
+//                         reject(r);
+//                     });
+//                 } catch (err) {
+//                     if (call) return;
+//                     reject(err);
+//                 }
+//             } else {
+//                 resolve(x);
+//             }
+//         } else {
+//             resolve(x);
+//         }
+//     }
+//     return Promise;
+// })();
+// const promise = new PromiseCall((resolve, reject) => {
+//     setTimeout(() => {
+//         resolve({
+//             then(resolve, reject) {
+//                 resolve({
+//                     then(resolve, reject) {
+//                         resolve('hello,');
+//                     }
+//                 });
+//             }
+//         });
+//     }, 300);
+// });
+// promise.then(val => {
+//     console.log(val);
+//     return `${val}wtw`
+// }).then(content => {
+//     console.log(content);
+//     return {
+//         then(resolve, reject) {
+//             resolve(`${content},29 year's old~`);
+//         }
+//     };
+// }).then(result => {
+//     console.log(result);
+//     throw new TypeError(`${result},I love computer`);
+// }).then(null, reason => {
+//     console.error(reason);
+// });
+
+// complete Promise
