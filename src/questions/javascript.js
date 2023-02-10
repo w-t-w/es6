@@ -1475,3 +1475,48 @@
 // };
 // const regExp = /^.$/uimg;
 // console.log(getFlags(regExp));
+// const getFlags = (regExp) => {
+//     if (!regExp instanceof RegExp)
+//         throw new TypeError('parameter mast be a RegExp');
+//     const regExpStr = regExp.toString() || String(regExp);
+//     return regExpStr.substring(regExpStr.lastIndexOf('/') + 1);
+// }
+// const regExp = /^.$/uimg;
+// console.log(getFlags(regExp));
+
+// class Imitate
+// const Person = (() => {
+//     function Person(...args) {
+//         if (new.target === undefined)
+//             throw new TypeError('This class can only be called by the new constructor!');
+//         this.args = args;
+//     }
+//
+//     Object.defineProperty(Person.prototype, 'introduce', {
+//         value() {
+//             if (new.target !== undefined) {
+//                 throw new TypeError('Class methods cannot be called using the new construction!');
+//             }
+//             console.log(`I have these parameters~`, this.args.join(','));
+//         },
+//         enumerable: false,
+//         writable: true,
+//         configurable: true
+//     });
+//     Object.defineProperty(Person.prototype, 'getArgs', {
+//         get() {
+//             return this.args;
+//         },
+//         enumerable: false
+//     });
+//     return Person;
+// })();
+// console.log(Person('wtw', 29));
+// const wtw = new Person('wtw', 29);
+// console.log(wtw);
+// const result = new wtw.introduce();
+// wtw.introduce();
+// for (const key in wtw) {
+//     console.log(key);
+// }
+// console.log(wtw.getArgs);
