@@ -1434,11 +1434,11 @@
 //     })]);
 // };
 // promiseTimeout(new Promise(resolve => {
-    // resolve({status: 'fulfilled', value: 'wonderful!'});
-    // resolve('wonderful!');
-    // setTimeout(() => {
-    //     resolve('wonderful!');
-    // }, 3100);
+// resolve({status: 'fulfilled', value: 'wonderful!'});
+// resolve('wonderful!');
+// setTimeout(() => {
+//     resolve('wonderful!');
+// }, 3100);
 //     setTimeout(() => {
 //         resolve({status: 'fulfilled', value: 'wonderful!'});
 //     }, 2900);
@@ -1447,3 +1447,12 @@
 // }).catch(reason => {
 //     console.error('reason:', reason);
 // });
+
+// get Character's Length
+// const getUTF16Length = str => {
+//     const strTransform = str.toString() || String(str);
+//     return strTransform.match(/[\s\S]/ug).length;
+// }
+// const str = 'a𠮷bcd𠮷𠮷efg';
+// const length = getUTF16Length(str);
+// console.log('str length:', length);
