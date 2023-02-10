@@ -1420,4 +1420,30 @@
 //     console.log('reason', reason);
 // });
 
-//
+// promise Timeout
+// const promiseTimeout = (promise, timeout) => {
+//     return Promise.race([Promise.resolve(promise).then(value => {
+//         return (typeof value !== 'object' || !value.hasOwnProperty('status')) ? {status: 'fulfilled', value} : value;
+//     }), new Promise((resolve, reject) => {
+//         setTimeout(() => {
+//             reject({
+//                 status: 'rejected',
+//                 reason: '请求超时!'
+//             });
+//         }, timeout);
+//     })]);
+// };
+// promiseTimeout(new Promise(resolve => {
+    // resolve({status: 'fulfilled', value: 'wonderful!'});
+    // resolve('wonderful!');
+    // setTimeout(() => {
+    //     resolve('wonderful!');
+    // }, 3100);
+//     setTimeout(() => {
+//         resolve({status: 'fulfilled', value: 'wonderful!'});
+//     }, 2900);
+// }), 3000).then(val => {
+//     console.log('val:', val);
+// }).catch(reason => {
+//     console.error('reason:', reason);
+// });
