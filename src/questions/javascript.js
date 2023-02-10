@@ -1465,3 +1465,13 @@
 // const result = judgeUTF16Char('𠮷b');
 // const result = judgeUTF16Char('a𠮷b');
 // console.log('result', result);
+
+// flags Method Imitate
+// const getFlags = regExp => {
+//     if (!regExp instanceof RegExp)
+//         throw new TypeError('parameter mast be a RegExp');
+//     const regExpTransform = regExp.toString() || String(regExp);
+//     return regExpTransform.substring(regExpTransform.lastIndexOf('/') + 1);
+// };
+// const regExp = /^.$/uimg;
+// console.log(getFlags(regExp));
