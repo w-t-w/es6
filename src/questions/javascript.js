@@ -1350,3 +1350,74 @@
 //     resolve('love')
 // }, 10000)), PromiseCall.reject('race JinJin love KaiKai'), 3]).then(value => console.log('allSettled', value)).catch(reason => console.error(reason));
 // module.exports = PromiseCall;
+
+// generator Thunk
+// const fs = require('fs');
+// const path = require('path');
+// const firstFilePath = path.resolve(process.cwd(), 'src/questions/assets/1.txt');
+// const secondFilePath = path.resolve(process.cwd(), 'src/questions/assets/2.txt');
+// const thunk = fn => (...args) => callback => fn(...args, callback);
+// const generator = taskRunner => {
+//     const task = taskRunner();
+//     function next(err, data) {
+//         if (err) return err instanceof Error ? task.throw(err) : task.throw(new Error(err));
+//         const {value, done} = task.next(data);
+//         if (done) return true;
+//         if (typeof value === 'function') {
+//             value(next);
+//         } else {
+//             next(null, value);
+//         }
+//     }
+//     next();
+// };
+// const readFile = thunk(fs.readFile);
+// generator(function* () {
+//     const first = yield readFile(firstFilePath, 'utf-8');
+//     console.log('first,', first);
+//     const second = yield readFile(secondFilePath, 'utf-8');
+//     console.log('second', second);
+//     return second;
+// });
+
+// promise Generator Thunk
+// const fs = require('fs');
+// const path = require('path');
+// const thunk = fn => (...args) => callback => fn(...args, callback);
+// const firstFilePath = path.resolve(process.cwd(), 'src/questions/assets/1.txt');
+// const secondFilePath = path.resolve(process.cwd(), 'src/questions/assets/2.txt');
+// const promiseGenerator = taskRunner => {
+//     return new Promise((resolve, reject) => {
+//         const task = taskRunner();
+//         function next(err, data) {
+//             if (err) return reject(task.throw(err instanceof Error ? err : new Error(err)));
+//             const {value, done} = task.next(data);
+//             if (done) return resolve(value);
+//             if (typeof value === 'function') {
+//                 value(next);
+//             } else {
+//                 const promise = Promise.resolve(value);
+//                 promise.then(val => {
+//                     next(null, val);
+//                 }, reason => {
+//                     next(reason);
+//                 });
+//             }
+//         }
+//         next();
+//     });
+// };
+// const readFile = thunk(fs.readFile);
+// promiseGenerator(function* () {
+//     const first = yield readFile(firstFilePath, 'utf-8');
+//     console.log('first:', first);
+//     const second = yield readFile(secondFilePath, 'utf-8');
+//     console.log('second:', second);
+//     return second;
+// }).then(value => {
+//     console.log('end:', value);
+// }, reason => {
+//     console.log('reason', reason);
+// });
+
+//
