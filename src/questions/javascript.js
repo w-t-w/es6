@@ -1449,10 +1449,19 @@
 // });
 
 // get Character's Length
-// const getUTF16Length = str => {
+// const getUTF16StrLength = str => {
 //     const strTransform = str.toString() || String(str);
 //     return strTransform.match(/[\s\S]/ug).length;
 // }
 // const str = 'a𠮷bcd𠮷𠮷efg';
-// const length = getUTF16Length(str);
+// const length = getUTF16StrLength(str);
 // console.log('str length:', length);
+
+// judge UTF-16 Character
+// const judgeUTF16Char = str => {
+//     const strTransform = str.toString() || String(str);
+//     return strTransform.codePointAt(0) > 0xFFFF;
+// };
+// const result = judgeUTF16Char('𠮷b');
+// const result = judgeUTF16Char('a𠮷b');
+// console.log('result', result);
