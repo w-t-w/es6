@@ -1520,3 +1520,40 @@
 //     console.log(key);
 // }
 // console.log(wtw.getArgs);
+
+// class Rename Imitate
+// const Person = (() => {
+//     function PersonAnother(...args) {
+//         if (new.target === undefined) {
+//             throw new TypeError('This class can only be called by the new constructor');
+//         }
+//         this.args = args;
+//     }
+//     Object.defineProperty(PersonAnother.prototype, 'introduce', {
+//         value() {
+//             if (new.target !== undefined) {
+//                 throw new TypeError('This method cannot be called by the new constructor');
+//             }
+//             console.log('Contains class parameters:', this.args);
+//         },
+//         enumerable: false,
+//         writable: true,
+//         configurable: true
+//     });
+//     Object.defineProperty(PersonAnother.prototype, 'getArgs', {
+//         get() {
+//             return this.args;
+//         },
+//         enumerable: false
+//     });
+//     return PersonAnother;
+// })();
+// const wtw = new Person('wtw', 29);
+// Person('wtw', 29);
+// console.log(wtw);
+// const result = new wtw.introduce();
+// wtw.introduce();
+// console.log(wtw.getArgs);
+// for(const key in wtw) {
+//     console.log(key);
+// }
