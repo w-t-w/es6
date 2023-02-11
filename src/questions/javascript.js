@@ -1557,3 +1557,47 @@
 // for(const key in wtw) {
 //     console.log(key);
 // }
+
+// class with array attributes
+// class ArrayMock extends Array {
+//     constructor(...props) {
+//         super(...props);
+//         return new Proxy(this, {
+//             set(target, key, value) {
+//                 const length = Reflect.get(target, 'length');
+//                 if (target.isArrayIndex(key)) {
+//                     if (key >= length) {
+//                         Reflect.set(target, 'length', Number(key) + 1);
+//                     }
+//                 } else {
+//                     if (key === 'length') {
+//                         if (value < length) {
+//                             for (let i = length - 1; i >= value; i--) {
+//                                 Reflect.deleteProperty(target, i);
+//                             }
+//                         }
+//                     }
+//                 }
+//                 return Reflect.set(target, key, value);
+//             }
+//         });
+//     }
+//     isArrayIndex(key) {
+//         const transformKey = this.isUnitTo32Char(key);
+//         return (String(transformKey) === key) && (transformKey < (2 ** 53 - 1));
+//     }
+//     isUnitTo32Char(key) {
+//         return Math.floor(Math.abs(Number(key))) % (2 ** 53);
+//     }
+// }
+// const arr = new ArrayMock();
+// arr[0] = 'yinwenkai';
+// arr[1] = 'liuzhenji';
+// arr[2] = 'wangjinjin';
+// arr[3] = 'zhaoyue';
+// arr[4] = 'liyulun';
+// arr[7] = 'yanglu';
+// console.log(arr, arr.length);
+// arr.length = 3;
+// console.log(arr);
+// console.log(arr.length);
