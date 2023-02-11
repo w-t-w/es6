@@ -1485,8 +1485,8 @@
 // console.log(getFlags(regExp));
 
 // class Imitate
-// const Person = (() => {
-//     function Person(...args) {
+// let Person = (() => {
+//     const Person = function(...args) {
 //         if (new.target === undefined)
 //             throw new TypeError('This class can only be called by the new constructor!');
 //         this.args = args;
@@ -1522,8 +1522,8 @@
 // console.log(wtw.getArgs);
 
 // class Rename Imitate
-// const Person = (() => {
-//     function PersonAnother(...args) {
+// let Person = (() => {
+//     const PersonAnother = function(...args) {
 //         if (new.target === undefined) {
 //             throw new TypeError('This class can only be called by the new constructor');
 //         }
